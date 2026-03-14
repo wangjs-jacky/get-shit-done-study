@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command 与 Workflow 分离架构 | Art Deco</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <style>
+    :root { --bg: #0c0c0; --bg-card: #1a1a1a --text: #f5f5f5; --muted: #8a8a8a --gold: #d4af37; --black: #1a1a1a --border: rgba(212, 175, 55, 0.3); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Josefin Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.8; background-image: url("data:image/svg+xml,%3C-1 2 0 0 0 0%3C%5B%5B 2px) var(--bg-card) border-radius: 8px; }
+    .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); z-index: 100; }
+    .progress-bar { height: 100%; background: var(--black); width: 0%; }
+    .nav { position: fixed; top: 20px; left: 20px; right: 20px; background: var(--bg-card); border: 1px solid var(--border); z-index: 50; padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15); }
+    .nav-brand { font-family: 'Poiret One', cursive; font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: 3px; text-transform: uppercase; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 11px; margin-left: 20px; text-transform: uppercase; letter-spacing: 2px; }
+    .nav-links a:hover { color: var(--gold); }
+    .container { max-width: 900px; margin: 0 auto; padding: 120px 30px 80px; }
+    header { text-align: center; margin-bottom: 50px; }
+    .tag { display: inline-block; background: var(--gold); color: var(--black); padding: 6px 18px; font-size: 10px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; }
+    h1 { font-family: 'Poiret One', cursive; font-size: 38px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; color: var(--text); letter-spacing: 1px; }
+    .subtitle { font-size: 16px; color: var(--muted); max-width: 500px; margin: 0 auto; font-weight: 300; }
+    .decor { position: absolute; top: 50%; right: 100px; width: 80px; height: 80px; border: 1px solid var(--gold); opacity: 0.1; }
+    .decor-1 { top: 20%; left: 30%; transform: rotate(15deg); }
+    .decor-2 { top: 40%; right: 10%; width: 60px; height: 60px; opacity: 0.08; }
+    section { margin-bottom: 40px; position: relative; background: var(--bg-card); border: 1px solid var(--border); padding: 35px; }
+    h2 { font-family: 'Poiret One', cursive; font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; letter-spacing: 2px; }
+    h2::before { content: ''; width: 30px; height: 2px; background: var(--gold); }
+    h3 { font-family: 'Poiret One', cursive; font-size: 14px; font-weight: 600; margin: 20px 0 12px; color: var(--gold); letter-spacing: 1px; }
+    p { margin-bottom: 12px; color: var(--muted); }
+    blockquote { background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05)); border-left: 3px solid var(--gold); padding: 25px; margin: 25px 0; font-family: 'Poiret One', cursive; font-style: italic; color: var(--text); }
+    .table-wrapper { overflow-x: auto; margin: 20px 0; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--black); color: var(--gold); padding: 14px; text-align: left; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; }
+    td { padding: 14px; border-top: 1px solid var(--border); }
+    .code-block { margin: 20px 0; border: 1px solid var(--border); background: #fafafa; }
+    .code-header { background: var(--black); color: var(--gold); padding: 10px 15px; display: flex; justify-content: space-between; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; }
+    .code-copy { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 5px 15px; cursor: pointer; font-size: 10px; transition: all 0.2s; }
+    .code-copy:hover { background: var(--gold); color: var(--black); }
+    pre { padding: 20px; overflow-x: auto; font-size: 13px; }
+    code { font-family: 'SF Mono', monospace; }
+    .ascii-art { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; margin: 20px 0; overflow-x: auto; }
+    .ascii-art pre { background: transparent; padding: 0; font-size: 11px; line-height: 1.4; color: var(--muted); }
+    .mermaid-wrap { background: var(--bg-card); border: 1px solid var(--border); padding: 40px; margin: 20px 0; text-align: center; }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); padding: 25px; text-align: center; transition: all 0.3s; }
+    .card:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .card-icon { font-size: 28px; margin-bottom: 8px; }
+    .card-title { font-family: 'Poiret One', cursive; font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+    .card-desc { font-size: 13px; color: var(--muted); }
+    ul { margin: 15px 0; padding-left: 0; list-style: none; display: grid; gap: 20px; }
+    li { margin-bottom: 8px; padding-left: 30px; position: relative; }
+    li::before { content: '◆'; position: absolute; left: 0; color: var(--gold); font-size: 10px; }
+    .checklist li.checked::before { content: '◆'; }
+    footer { margin-top: 50px; text-align: center; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; }
+    @media (max-width: 768px) { .container { padding: 100px 20px; } .nav { padding: 15px 20px; } h1 { font-size: 28px; } .cards { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="decor decor-1"></div>
+  <div class="decor decor-2"></div>
+  <div class="progress"><div class="progress-bar" id="progress"></div></div>
+  <nav class="nav">
+    <div class="nav-brand">GSD Notes</div>
+    <div class="nav-links"><a href="#core">Core</a><a href="#flow">Flow</a></div>
+  </nav>
+  <main class="container">
+    <header>
+      <span class="tag">Architecture</span>
+      <h1>Command 与 Workflow 分离架构</h1>
+              <p class="subtitle">GSD 框架采用两层架构<br>Command 负责声明， Workflow 负责实现</p>
+          </header>
+          <section id="problem"><h2>问题</h2><p>框架如何让命令既易于理解，又易于维护？</p></section>
+          <section id="core">
+              <h2>核心思想</h2>
+              <blockquote>将"做什么"（Command）与"怎么做"（Workflow）分离</blockquote>
+              <div class="cards">
+                  <div class="card"><div class="card-icon">◈</div><div class="card-title">Command</div><div class="card-desc">声明"做什么"</div></div>
+                  <div class="card"><div class="card-icon">◈</div><div class="card-title">Workflow</div><div class="card-desc">定义"怎么做"</div></div>
+              </div>
+              <div class="table-wrapper">
+                  <table><thead><tr><th>层级</th><th>位置</th><th>职责</th><th>内容</th></tr></thead><tbody><tr><td>Command</td><td><code>commands/gsd/*.md</code></td><td>声明</做什么"</td><td>name, description</ tools</td></tr><tr><td>Workflow</td><td><code>workflows/*.md</code></td><td>定义"怎么做"</td><td>steps, bash, logic</td></tr></tbody></table>
+              </div>
+          </section>
+          <div class="divider">◆ ◇ ◆</div>
+          <section><h2>Command 文件结构</h2><div class="code-block"><div class="code-header"><span>YAML</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div><pre><code class="language-yaml">---
+name: gsd:update
+description: Update GSD to latest version
+allowed-tools:
+  - Bash
+  - AskUserQuestion
+---</code></pre></div></section>
+          <section id="flow"><h2>安装流程</h2><div class="ascii-art"><pre>┌─────────────────────────────────────────────────────────────┐
+│  npm 包 (get-shit-done-cc@latest)                           │
+│  ├── commands/gsd/        # 命令入口文件                      │
+│  ├── agents/              # 子代理定义                        │
+│  └── get-shit-done/       # 核心实现                          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ copyWithPathReplacement()
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  目标目录 (~/.claude/ 或 ./.claude/)                         │
+│  ├── commands/gsd/        ✓ Installed                        │
+│  ├── get-shit-done/       ✓ Installed                        │
+│  └── hooks/               ✓ Installed                        │
+└─────────────────────────────────────────────────────────────┘</pre></div></section>
+          <section><h2>完整数据流</h2><div class="mermaid-wrap"><div class="mermaid">flowchart LR
+    A[npm] --> B[npx] --> C[install.js]
+    C --> D[commands/]
+    C --> E[workflows/]
+    C --> F[agents/]</div></div></section>
+          <div class="divider">◆ ◇ ◄</►
+          <section id="highlights"><h2>设计亮点</h2><div class="cards">
+              <div class="card"><div class="card-icon">◈</div><div class="card-title">关注点分离</div><div class="card-desc">接口与实现解耦</div></div>
+              <div class="card"><div class="card-icon">◈</div><div class="card-title">工具权限控制</div><div class="card-desc">每个命令明确声明需要的工具</div></div>
+              <div class="card"><div class="card-icon">◈</div><div class="card-title">可复用</div><div class="card-desc">一个 workflow 多个 command</div></div>
+              <div class="card"><div class="card-icon">◈</div><div class="card-title">可维护</div><div class="card-desc">修改实现不影响接口</div></div>
+          </div></section>
+          <section><h2>可复用场景</h2><ul class="checklist"><li class="checked">jacky-skills：skill 定义与实现分离</li><li>声明式接口 + 命令式实现</li></ul></section>
+          <footer>GSD Notes</footer>
+      </main>
+      <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#1a1a1a', primaryTextColor: '#f5f5f5', primaryBorderColor: '#d4af37', lineColor: '#8a8a8c', background: '#0c0c0c' } });
+        hljs.highlightAll();
+        function copyCode(btn) { const code = btn.closest('.code-block').querySelector('code').textContent; navigator.clipboard.writeText(code); btn.textContent = 'Done'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+        window.addEventListener('scroll', () => { const progress = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100; document.getElementById('progress').style.width = progress + '%'; });
+      </script>
+    </body>
+    </html>

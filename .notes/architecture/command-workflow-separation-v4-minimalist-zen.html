@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command 与 Workflow 分离架构 | Zen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <style>
+    :root { --bg: #faf9f7; --bg-card: #ffffff; --text: #2c2c2c; --muted: #888; --accent: #8b7355; --border: rgba(0,0,0,0.06); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Zen Kaku Gothic New', sans-serif; background: var(--bg); color: var(--text); font-size: 17px; line-height: 2; font-weight: 300; }
+    .progress { position: fixed; top: 0; left: 0; right: 0; height: 1px; background: var(--accent); opacity: 0.3; z-index: 100; }
+    .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; opacity: 1; }
+    .nav { position: fixed; top: 40px; left: 0; right: 0; z-index: 50; text-align: center; }
+    .nav-brand { font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 300; letter-spacing: 8px; color: var(--muted); text-transform: uppercase; }
+    .container { max-width: 640px; margin: 0 auto; padding: 140px 30px 100px; }
+    header { text-align: center; margin-bottom: 100px; }
+    .tag { font-size: 10px; text-transform: uppercase; letter-spacing: 6px; color: var(--muted); margin-bottom: 50px; display: block; }
+    h1 { font-family: 'Noto Serif JP', serif; font-size: 32px; font-weight: 400; line-height: 1.5; margin-bottom: 40px; letter-spacing: 2px; }
+    .subtitle { font-size: 15px; color: var(--muted); line-height: 2; font-weight: 300; }
+    section { margin-bottom: 80px; opacity: 0; transform: translateY(20px); animation: fadeIn 0.8s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    h2 { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 400; margin-bottom: 40px; letter-spacing: 4px; text-align: center; }
+    h2::before { content: '— '; color: var(--accent); } h2::after { content: ' —'; color: var(--accent); }
+    p { margin-bottom: 30px; }
+    blockquote { border-left: 1px solid var(--accent); padding: 30px 40px; margin: 50px 0; font-family: 'Noto Serif JP', serif; font-size: 18px; line-height: 2; color: var(--accent); font-weight: 300; }
+    .table-wrapper { margin: 40px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { padding: 20px; text-align: left; font-weight: 400; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    td { padding: 20px; border-bottom: 1px solid var(--border); font-weight: 300; }
+    .code-block { margin: 40px 0; background: var(--bg-card); border: 1px solid var(--border); }
+    .code-header { padding: 15px 20px; display: flex; justify-content: space-between; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .code-copy { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 4px 15px; cursor: pointer; font-size: 9px; letter-spacing: 1px; transition: all 0.3s; }
+    .code-copy:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+    pre { padding: 25px; overflow-x: auto; font-size: 13px; line-height: 1.8; }
+    code { font-family: 'SF Mono', monospace; }
+    .ascii-art { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; margin: 40px 0; overflow-x: auto; }
+    .ascii-art pre { background: transparent; padding: 0; font-size: 10px; line-height: 1.6; color: var(--muted); }
+    .mermaid-wrap { background: var(--bg-card); border: 1px solid var(--border); padding: 50px; margin: 40px 0; text-align: center; }
+    .cards { margin: 50px 0; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; margin-bottom: 20px; transition: all 0.4s; }
+    .card:hover { border-color: var(--accent); }
+    .card-title { font-family: 'Noto Serif JP', serif; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; color: var(--accent); font-weight: 400; }
+    .card-desc { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.8; }
+    ul { margin: 30px 0; padding-left: 0; list-style: none; }
+    li { margin-bottom: 15px; padding-left: 20px; position: relative; font-weight: 300; }
+    li::before { content: '○'; position: absolute; left: 0; color: var(--accent); font-size: 10px; }
+    .checklist li.checked::before { content: '●'; }
+    footer { margin-top: 100px; text-align: center; color: var(--muted); font-size: 12px; letter-spacing: 2px; }
+    footer::before { content: '— — —'; display: block; margin-bottom: 30px; color: var(--border); }
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="progress-bar" id="progress"></div></div>
+  <nav class="nav"><div class="nav-brand">GSD Notes</div></nav>
+  <main class="container">
+    <header>
+      <span class="tag">Architecture</span>
+      <h1>Command 与 Workflow 分离架构</h1>
+      <p class="subtitle">GSD 框架采用两层架构<br>Command 负责声明，Workflow 负责实现</p>
+    </header>
+    <section><h2>问题</h2><p>框架如何让命令既易于理解，又易于维护？</p></section>
+    <section>
+      <h2>核心思想</h2>
+      <blockquote>将"做什么"与"怎么做"分离</blockquote>
+      <div class="cards">
+        <div class="card"><div class="card-title">Command</div><div class="card-desc">薄薄的入口层<br>定义元数据和依赖</div></div>
+        <div class="card"><div class="card-title">Workflow</div><div class="card-desc">厚厚的实现层<br>包含具体步骤和逻辑</div></div>
+      </div>
+    </section>
+    <section><h2>两层职责</h2><div class="table-wrapper"><table><thead><tr><th>层级</th><th>位置</th><th>职责</th></tr></thead><tbody><tr><td>Command</td><td><code>commands/gsd/*.md</code></td><td>声明"做什么"</td></tr><tr><td>Workflow</td><td><code>workflows/*.md</code></td><td>定义"怎么做"</td></tr></tbody></table></div></section>
+    <section><h2>Command 结构</h2><div class="code-block"><div class="code-header"><span>yaml</span><button class="code-copy" onclick="copyCode(this)">copy</button></div><pre><code class="language-yaml">---
+name: gsd:update
+description: Update GSD to latest version
+allowed-tools:
+  - Bash
+  - AskUserQuestion
+---</code></pre></div></section>
+    <section><h2>安装流程</h2><div class="ascii-art"><pre>npm 包 → install.js → 本地目录
+  │           │           │
+  │           │           └── commands/
+  │           │           └── workflows/
+  │           │           └── agents/
+  │           │
+  │           └── copyWithPathReplacement()
+  │
+  └── get-shit-done-cc@latest</pre></div></section>
+    <section><h2>设计亮点</h2><ul><li>关注点分离：接口与实现解耦</li><li>工具权限控制：最小权限原则</li><li>可复用：一个 workflow 多个 command</li><li>可维护：修改实现不影响接口</li></ul></section>
+    <section><h2>可复用场景</h2><ul class="checklist"><li class="checked">jacky-skills：skill 定义与实现分离</li><li>声明式接口 + 命令式实现</li></ul></section>
+    <footer>GSD 学习笔记</footer>
+  </main>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#faf9f7', primaryTextColor: '#2c2c2c', primaryBorderColor: '#8b7355', lineColor: '#888', background: '#ffffff' } });
+    hljs.highlightAll();
+    function copyCode(btn) { const code = btn.closest('.code-block').querySelector('code').textContent; navigator.clipboard.writeText(code); btn.textContent = 'done'; setTimeout(() => btn.textContent = 'copy', 2000); }
+    window.addEventListener('scroll', () => { const progress = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100; document.getElementById('progress').style.width = progress + '%'; });
+  </script>
+</body>
+</html>

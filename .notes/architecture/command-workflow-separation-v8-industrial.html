@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command 与 Workflow 分离架构 | Industrial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <style>
+    :root { --bg: #1c1c1a; --bg-card: #252525; --text: #d4d4d4; --muted: #6b6b6b; --rust: #b843423; --orange: #f97316; --border: #3d3d3d; --steel: #5a5a5a; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Oswald', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7; background-image: repeating-linear-gradient(45deg, #1a1a1a 45%, transparent 45%); }
+    .progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--rust); z-index: 100; }
+    .progress-bar { height: 100%; background: var(--orange); width: 0%; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--border); z-index: 50; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-family: 'Archivo Black', sans-serif; font-size: 14px; font-weight: 700; color: var(--rust); letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; margin-left: 25px; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .container { max-width: 900px; margin: 0 auto; padding: 100px 20px 60px; }
+    header { text-align: center; margin-bottom: 50px; border-bottom: 2px solid var(--border); padding-bottom: 30px; }
+    .tag { display: inline-block; background: var(--orange); color: var(--bg); padding: 6px 15px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+    h1 { font-family: 'Archivo Black', sans-serif; font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+    .subtitle { font-size: 16px; color: var(--muted); max-width: 500px; margin: 0 auto; font-weight: 400; }
+    section { margin-bottom: 40px; background: var(--bg-card); border: 2px solid var(--border); padding: 30px; }
+    h2 { font-family: 'Archivo Black', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+    h2::before { content: '▶'; color: var(--orange); }
+    h3 { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; margin: 20px 0 10px; color: var(--rust); text-transform: uppercase; letter-spacing: 1px; }
+    p { margin-bottom: 12px; color: var(--muted); }
+    blockquote { border-left: 4px solid var(--orange); padding: 20px 25px; margin: 20px 0; background: rgba(249, 115, 22, 0.1); font-weight: 600; }
+    .table-wrapper { overflow-x: auto; margin: 20px 0; border: 2px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--steel); color: var(--bg); padding: 12px 15px; text-align: left; font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+    td { padding: 12px 15px; border-top: 1px solid var(--border); color: var(--muted); }
+    tr:hover { background: rgba(249, 115, 22, 0.05); }
+    .code-block { margin: 20px 0; border: 2px solid var(--border); background: #1e1e1e; }
+    .code-header { background: var(--steel); padding: 10px 15px; display: flex; justify-content: space-between; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); }
+    .code-copy { background: transparent; border: 1px solid var(--orange); color: var(--orange); padding: 5px 12px; cursor: pointer; font-size: 9px; text-transform: uppercase; transition: all 0.2s; }
+    .code-copy:hover { background: var(--orange); color: var(--bg); }
+    pre { padding: 20px; overflow-x: auto; font-size: 13px; }
+    code { font-family: 'SF Mono', monospace; }
+    .ascii-art { background: #1e1e1e; border: 2px solid var(--border); padding: 20px; margin: 20px 0; overflow-x: auto; }
+    .ascii-art pre { background: transparent; padding: 0; font-size: 11px; line-height: 1.4; color: var(--muted); }
+    .mermaid-wrap { background: var(--bg-card); border: 2px solid var(--border); padding: 30px; margin: 20px 0; text-align: center; }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+    .card { background: var(--bg-card); border: 2px solid var(--border); padding: 20px; text-align: center; transition: all 0.2s; }
+    .card:hover { border-color: var(--orange); }
+    .card-title { font-family: 'Archivo Black', sans-serif; font-size: 12px; color: var(--rust); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+    .card-desc { font-size: 13px; color: var(--muted); }
+    ul { margin: 15px 0; padding-left: 0; list-style: none; }
+    li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+    li::before { content: '▸'; position: absolute; left: 0; color: var(--orange); }
+    .checklist li::before { content: '[ ]'; font-family: monospace; }
+    .checklist li.checked::before { content: '[X]'; color: var(--orange); }
+    footer { margin-top: 50px; text-align: center; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+    @media (max-width: 768px) { h1 { font-size: 28px; } .cards { grid-template-columns: 1fr; } .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="progress-bar" id="progress"></div></div>
+  <nav class="nav">
+    <div class="nav-brand">GSD Notes</div>
+    <div class="nav-links"><a href="#core">Core</a><a href="#flow">Flow</a></div>
+  </nav>
+  <main class="container">
+    <header>
+      <span class="tag">Architecture</span>
+      <h1>Command 与 Workflow 分离架构</h1>
+      <p class="subtitle">GSD 框架采用两层架构： Command 负责声明， Workflow 负责实现</p>
+    </header>
+    <section id="problem"><h2>问题</h2><p>框架如何让命令既易于理解，又易于维护？</p></section>
+    <section id="core">
+      <h2>核心思想</h2>
+      <blockquote>将"做什么"（Command）与"怎么做"（Workflow）分离</blockquote>
+      <div class="cards">
+        <div class="card"><div class="card-title">Command</div><div class="card-desc">声明"做什么"</div></div>
+        <div class="card"><div class="card-title">Workflow</div><div class="card-desc">定义"怎么做"</div></div>
+      </div>
+      <div class="table-wrapper">
+        <table><thead><tr><th>层级</th><th>位置</th><th>职责</th><th>内容</th></tr></thead><tbody><tr><td>Command</td><td><code>commands/gsd/*.md</code></td><td>声明</做什么"</td><td>name, description</td></tr><tr><td>Workflow</td><td><code>workflows/*.md</code></td><td>定义"怎么做"</td><td>steps, bash</td></tr></tbody></table>
+      </div>
+    </section>
+    <section><h2>Command 结构</h2><div class="code-block"><div class="code-header"><span>YAML</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div><pre><code class="language-yaml">---
+name: gsd:update
+description: Update GSD to latest version
+allowed-tools:
+  - Bash
+  - AskUserQuestion
+---</code></pre></div></section>
+    <section id="flow"><h2>安装流程</h2><div class="ascii-art"><pre>┌─────────────────────────────────────────────────────────────┐
+│  npm 包 (get-shit-done-cc@latest)                           │
+│  ├── commands/gsd/        # 命令入口文件                      │
+│  ├── agents/              # 子代理定义                        │
+│  └── get-shit-done/       # 核心实现                          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ copyWithPathReplacement()
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  目标目录 (~/.claude/ 或 ./.claude/)                         │
+│  ├── commands/gsd/        ✓ Installed                        │
+│  ├── get-shit-done/       ✓ Installed                        │
+│  └── hooks/               ✓ Installed                        │
+└─────────────────────────────────────────────────────────────┘</pre></div></section>
+    <section><h2>数据流</h2><div class="mermaid-wrap"><div class="mermaid">flowchart LR
+    A[npm] --> B[npx] --> C[install.js]
+    C --> D[commands/]
+    C --> E[workflows/]
+    C --> F[agents/]</div></div></section>
+    <section id="highlights"><h2>设计亮点</h2><div class="cards">
+        <div class="card"><div class="card-title">关注点分离</div><div class="card-desc">接口与实现解耦</div></div>
+        <div class="card"><div class="card-title">工具权限控制</div><div class="card-desc">最小权限原则</div></div>
+        <div class="card"><div class="card-title">可复用</div><div class="card-desc">一个 workflow 多个 command</div></div>
+        <div class="card"><div class="card-title">可维护</div><div class="card-desc">修改实现不影响接口</div></div>
+      </div></section>
+    <section><h2>可复用场景</h2><ul class="checklist"><li class="checked">jacky-skills: skill 定义与实现分离</li><li>声明式接口 + 命令式实现</li></ul></section>
+    <footer>GSD Notes // Industrial Design</footer>
+  </main>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#252525', primaryTextColor: '#d4d4d4', primaryBorderColor: '#f97316', lineColor: '#6b6b6b', background: '#1a1a1a' } });
+    hljs.highlightAll();
+    function copyCode(btn) { const code = btn.closest('.code-block').querySelector('code').textContent; navigator.clipboard.writeText(code); btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+    window.addEventListener('scroll', () => { const progress = (document.documentElement.scrollTop / (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100; document.getElementById('progress').style.width = progress + '%'; });
+  </script>
+</body>
+</html>
