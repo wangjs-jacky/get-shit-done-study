@@ -43,9 +43,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Build Pomodoro timer component with all style variants
-- [ ] 02-02: Implement PreviewPane island with style switching
-- [ ] 02-03: Add CSS variable injection for instant style updates
+- [ ] 02-01-PLAN.md — Build PomodoroTimer component with timer logic, display, and controls
+- [ ] 02-02-PLAN.md — Build Gallery and PreviewPane with 70/30 layout and style switching
+- [ ] 02-03-PLAN.md — Optimize CSS variables and create comprehensive component tests
 
 ### Phase 3: Copy Functionality
 **Goal**: Enable one-click copy of style prompts with user feedback
@@ -92,4 +92,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 ---
 *Roadmap created: 2026-03-15*
-*Last updated: 2026-03-15 after plan-phase*
+*Last updated: 2026-03-15 after plan revision*
