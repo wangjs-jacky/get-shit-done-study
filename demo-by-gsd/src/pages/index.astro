@@ -1,17 +1,33 @@
 ---
+import Layout from '../components/Layout.astro';
+import StyleList from '../components/StyleList.astro';
+import stylesData from '../data/styles.json';
 
+const selectedId = stylesData.styles[0]?.id; // Default to first style
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Frontend Design Gallery" description="快速预览和选择 UI 风格，一键复制 prompt 到 CLAUDE.md">
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="p-6 border-b border-[var(--color-border)]">
+      <h1 class="text-2xl font-bold text-[var(--color-text)]">Frontend Design Gallery</h1>
+      <p class="text-[var(--color-text-muted)] mt-1">快速预览和选择 UI 风格，一键复制 prompt 到 CLAUDE.md</p>
+    </header>
+
+    <!-- Main Content - Split Layout -->
+    <main class="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-5rem)]">
+      <!-- Left: Preview Area (placeholder for Phase 2) -->
+      <section class="p-6 border-r border-[var(--color-border)] flex items-center justify-center">
+        <div class="text-center text-[var(--color-text-muted)]">
+          <p>Preview area</p>
+          <p class="text-sm mt-2">Pomodoro timer will appear here in Phase 2</p>
+        </div>
+      </section>
+
+      <!-- Right: Style List -->
+      <section class="border-l lg:border-l-0 border-[var(--color-border)]">
+        <StyleList styles={stylesData.styles} selectedId={selectedId} />
+      </section>
+    </main>
+  </div>
+</Layout>
