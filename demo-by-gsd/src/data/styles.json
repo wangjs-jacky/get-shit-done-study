@@ -1,0 +1,24 @@
+{
+  "styles": [
+    {
+      "id": "terminal-noir",
+      "name": "Terminal Noir",
+      "description": "深色主题 + 霓虹绿强调色，终端/赛博朋克风格。适合技术类应用，营造沉浸感。",
+      "cssVariables": {
+        "--color-bg": "#0a0a0b",
+        "--color-bg-elevated": "#131316",
+        "--color-text": "#e5e5e7",
+        "--color-text-muted": "#6b6b76",
+        "--color-border": "rgba(255, 255, 255, 0.06)",
+        "--color-primary": "#00ff88",
+        "--color-primary-dim": "rgba(0, 255, 136, 0.15)",
+        "--color-amber": "#ffb800",
+        "--color-red": "#ff4757",
+        "--color-blue": "#00d4ff",
+        "--glass-bg": "rgba(255, 255, 255, 0.02)",
+        "--glass-border": "rgba(255, 255, 255, 0.05)"
+      },
+      "promptText": "## 前端设计偏好\n\n> **核心理念**：创建独特、有辨识度的界面，避免千篇一律的\"AI 风格\"。每次设计都应有明确的视觉主张。\n\n### 设计思维框架\n\n开始设计前，明确以下要素：\n\n| 维度 | 问题 |\n|------|------|\n| **目的** | 这个界面解决什么问题？谁在使用它？ |\n| **风格** | 选择一个明确的风格方向（极简主义、复古未来、赛博朋克、有机自然等） |\n| **约束** | 技术要求（框架、性能、无障碍） |\n| **差异化** | 什么让这个界面令人难忘？用户会记住哪一个设计元素？ |\n\n> **关键原则**：大胆的极繁主义和精致的极简主义都可行——重要的是意图性和一致性，而非强度。\n\n### Terminal Noir 配色方案\n\n```css\n/* 核心颜色 */\n--color-bg: #0a0a0b;           /* 深黑背景 */\n--color-bg-elevated: #131316;  /* 抬升背景 */\n--color-text: #e5e5e7;         /* 主文字 */\n--color-text-muted: #6b6b76;   /* 次要文字 */\n--color-border: rgba(255, 255, 255, 0.06);\n\n/* 强调色 - 霓虹风格 */\n--color-primary: #00ff88;      /* 霓虹绿 */\n--color-primary-dim: rgba(0, 255, 136, 0.15);\n--color-amber: #ffb800;        /* 琥珀色 */\n--color-red: #ff4757;          /* 警告红 */\n--color-blue: #00d4ff;         /* 天蓝 */\n\n/* 玻璃效果 */\n--glass-bg: rgba(255, 255, 255, 0.02);\n--glass-border: rgba(255, 255, 255, 0.05);\n```\n\n### 喜欢的设计风格\n\n- **深色主题优先**：深邃的背景色，营造沉浸感\n- **霓虹色彩点缀**：终端/赛博朋克风格的强调色\n- **玻璃态效果**：毛玻璃、半透明层次感\n- **微妙动效**：流畅的过渡和有意义的动画\n- **技术感字体**：等宽字体用于代码/技术元素\n\n### 避免的\"AI 风格\"\n\n**绝对不要使用这些平庸的选择**：\n\n| 类别 | 避免 | 原因 |\n|------|------|------|\n| **字体** | Inter, Roboto, Arial, 系统字体, Space Grotesk | 过于通用，缺乏个性 |\n| **配色** | 白底紫色渐变 | AI 生成界面的典型标志 |\n| **布局** | 千篇一律的卡片网格 | 缺乏创意和上下文关联 |\n| **组件** | 套用模板的设计系统 | 没有针对场景定制 |\n\n### 字体选择指南\n\n**推荐字体**（具有独特个性）：\n\n| 类型 | 推荐字体 | 特点 |\n|------|----------|------|\n| **等宽** | JetBrains Mono, Fira Code, IBM Plex Mono | 技术感、可读性好 |\n| **展示** | Clash Display, Satoshi, Cabinet Grotesk | 现代感、有辨识度 |\n| **正文** | DM Sans, Plus Jakarta Sans, Outfit | 清晰、不张扬 |\n\n> **字体搭配原则**：选择一个有个性的展示字体 + 一个精致的正文字体。避免两个都平淡或都抢眼。\n\n### 动效设计原则\n\n**优先级**：一次精心编排的页面加载动画 > 分散的微交互\n\n| 技术 | 场景 |\n|------|------|\n| **CSS 动画** | 优先使用，适用于大多数效果 |\n| **Motion (React)** | 复杂动画场景 |\n| **animation-delay** | 错落有致的入场效果 |\n| **滚动触发** | 惊喜感的交互时刻 |\n| **Hover 状态** | 有意义的反馈 |\n\n### 空间布局策略\n\n**打破常规，创造记忆点**：\n\n- 意想不到的布局\n- 非对称设计\n- 元素重叠\n- 对角线流动\n- 突破网格\n- 要么大量留白，要么控制密度\n\n### 背景与视觉细节\n\n**营造氛围，而非使用纯色**：\n\n| 效果 | 实现方式 |\n|------|----------|\n| 网格背景纹理 | CSS grid pattern / SVG |\n| 扫描线效果 | 伪元素 + linear-gradient |\n| 霓虹发光 | box-shadow / text-shadow |\n| 卡片边框高光 | border + gradient |\n| 渐变网格 | mesh-gradient |\n| 噪点纹理 | noise overlay |\n| 几何图案 | SVG / CSS pattern |\n| 分层透明 | layered transparencies |\n| 戏剧性阴影 | box-shadow |\n| 装饰边框 | decorative borders |\n| 自定义光标 | cursor: url() |\n| 颗粒覆盖 | grain overlay |\n\n### 设计复杂度匹配\n\n> **重要**：实现复杂度应与美学愿景匹配\n\n- **极繁主义设计** → 需要精细的代码、大量动画和效果\n- **极简主义设计** → 需要克制、精确，关注间距、字体和微妙细节\n\n**优雅来自于对愿景的精准执行，而非风格的妥协。**"
+    }
+  ]
+}
