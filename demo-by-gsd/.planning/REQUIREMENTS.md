@@ -36,9 +36,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Style Data
 
-- [ ] **DATA-01**: 风格数据从 frontend-design skill 提取
-- [ ] **DATA-02**: 所有风格代码预生成（构建时生成）
-- [ ] **DATA-03**: 风格数据包含：ID、名称、描述、CSS 变量、prompt 文本
+- [x] **DATA-01**: 风格数据从 frontend-design skill 提取
+- [x] **DATA-02**: 所有风格代码预生成（构建时生成）
+- [x] **DATA-03**: 风格数据包含：ID、名称、描述、CSS 变量、prompt 文本
 
 ### Performance
 
@@ -108,9 +108,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COPY-02 | Phase 3 | Pending |
 | COPY-03 | Phase 3 | Pending |
 | COPY-04 | Phase 3 | Pending |
-| DATA-01 | Phase 1 | Pending |
-| DATA-02 | Phase 1 | Pending |
-| DATA-03 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Complete |
+| DATA-02 | Phase 1 | Complete |
+| DATA-03 | Phase 1 | Complete |
 | PERF-01 | Phase 2 | Pending |
 | PERF-02 | Phase 2 | Pending |
 | PERF-03 | Phase 2 | Pending |
