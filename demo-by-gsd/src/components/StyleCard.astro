@@ -1,0 +1,24 @@
+---
+import type { Style } from '../types/style';
+
+interface Props {
+  style: Style;
+  selected?: boolean;
+  onSelect?: (id: string) => void;
+}
+
+const { style, selected = false, onSelect } = Astro.props;
+---
+
+<div
+  class:list={[
+    "rounded-lg border p-4 cursor-pointer transition-colors",
+    selected
+      ? "border-[var(--color-primary)] bg-[var(--color-primary-dim)]"
+      : "border-[var(--color-border)] hover:border-[var(--color-primary)]"
+  ]}
+  data-style-id={style.id}
+>
+  <h3 class="font-semibold text-[var(--color-text)]">{style.name}</h3>
+  <p class="text-sm text-[var(--color-text-muted)] mt-1">{style.description}</p>
+</div>
