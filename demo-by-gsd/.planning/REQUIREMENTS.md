@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **LAYT-01**: 左右分栏布局 - 左侧预览区 + 右侧风格列表
 - [ ] **LAYT-02**: 响应式设计 - 移动端堆叠布局
-- [ ] **LAYT-03**: 页面标题和简介说明网站用途
+- [x] **LAYT-03**: 页面标题和简介说明网站用途
 
 ### Live Preview
 
@@ -95,7 +95,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | LAYT-01 | Phase 1 | Pending |
 | LAYT-02 | Phase 1 | Pending |
-| LAYT-03 | Phase 1 | Pending |
+| LAYT-03 | Phase 1 | Complete |
 | PREV-01 | Phase 2 | Pending |
 | PREV-02 | Phase 2 | Pending |
 | PREV-03 | Phase 2 | Pending |

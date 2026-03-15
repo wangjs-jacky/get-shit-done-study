@@ -26,8 +26,8 @@ Build a static website that showcases UI design styles from the frontend-design 
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Initialize Astro 5.x project with React 19.x, Tailwind 4.x (Vite plugin), and Vitest
-- [ ] 01-02-PLAN.md — Extract Terminal Noir style data from CLAUDE.md to JSON with TypeScript types
+- [x] 01-01-PLAN.md — Initialize Astro 5.x project with React 19.x, Tailwind 4.x (Vite plugin), and Vitest
+- [x] 01-02-PLAN.md — Extract Terminal Noir style data from CLAUDE.md to JSON with TypeScript types
 - [ ] 01-03-PLAN.md — Build Layout, StyleList, StyleCard components with responsive split layout
 
 ### Phase 2: Demo App & Live Preview
