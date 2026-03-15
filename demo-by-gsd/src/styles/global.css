@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Terminal Noir Theme - CSS Custom Properties */
+:root {
+  /* Core colors */
+  --color-bg: #0a0a0b;
+  --color-bg-elevated: #131316;
+  --color-text: #e5e5e7;
+  --color-text-muted: #6b6b76;
+  --color-border: rgba(255, 255, 255, 0.06);
+
+  /* Accent colors - Neon style */
+  --color-primary: #00ff88;
+  --color-primary-dim: rgba(0, 255, 136, 0.15);
+  --color-amber: #ffb800;
+  --color-red: #ff4757;
+  --color-blue: #00d4ff;
+
+  /* Glass effects */
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.05);
+}
