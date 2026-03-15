@@ -1,33 +1,9 @@
 ---
 import Layout from '../components/Layout.astro';
-import StyleList from '../components/StyleList.astro';
+import Gallery from '../components/Gallery';
 import stylesData from '../data/styles.json';
-
-const selectedId = stylesData.styles[0]?.id; // Default to first style
 ---
 
-<Layout title="Frontend Design Gallery" description="快速预览和选择 UI 风格，一键复制 prompt 到 CLAUDE.md">
-  <div class="min-h-screen">
-    <!-- Header -->
-    <header class="p-6 border-b border-[var(--color-border)]">
-      <h1 class="text-2xl font-bold text-[var(--color-text)]">Frontend Design Gallery</h1>
-      <p class="text-[var(--color-text-muted)] mt-1">快速预览和选择 UI 风格，一键复制 prompt 到 CLAUDE.md</p>
-    </header>
-
-    <!-- Main Content - Split Layout (70/30 ratio) -->
-    <main class="grid grid-cols-1 lg:grid-cols-10 min-h-[calc(100vh-5rem)]">
-      <!-- Left: Preview Area (70% - 7 cols) -->
-      <section class="lg:col-span-7 p-6 border-r border-[var(--color-border)] flex items-center justify-center">
-        <div class="text-center text-[var(--color-text-muted)]">
-          <p>Preview area</p>
-          <p class="text-sm mt-2">Pomodoro timer will appear here in Phase 2</p>
-        </div>
-      </section>
-
-      <!-- Right: Style List (30% - 3 cols) -->
-      <section class="lg:col-span-3 border-l lg:border-l-0 border-[var(--color-border)]">
-        <StyleList styles={stylesData.styles} selectedId={selectedId} />
-      </section>
-    </main>
-  </div>
+<Layout title="Frontend Design Gallery" description="快速预览和选择 UI 风格">
+  <Gallery styles={stylesData.styles} client:load />
 </Layout>
