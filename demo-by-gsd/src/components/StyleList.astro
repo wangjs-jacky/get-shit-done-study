@@ -1,0 +1,17 @@
+---
+import type { Style } from '../types/style';
+import StyleCard from './StyleCard.astro';
+
+interface Props {
+  styles: Style[];
+  selectedId?: string | null;
+}
+
+const { styles, selectedId = null } = Astro.props;
+---
+
+<div class="flex flex-col gap-3 overflow-y-auto max-h-[calc(100vh-8rem)] p-4">
+  {styles.map((style) => (
+    <StyleCard style={style} selected={style.id === selectedId} />
+  ))}
+</div>
