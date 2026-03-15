@@ -65,6 +65,109 @@ gsd-statusline.js                    gsd-context-monitor.js
 └─────────────────────────────────────────────────┘
 ```
 
+### Bridge File 字段详解
+
+```json
+{
+  "session_id": "abc123def456",
+  "remaining_percentage": 30.5,
+  "used_pct": 70,
+  "timestamp": 1708200000
+}
+```
+
+| 字段 | 类型 | 来源 | 说明 |
+|------|------|------|------|
+| `session_id` | string | Claude Code 传入 | 当前会话 ID |
+| `remaining_percentage` | number | Claude Code 传入 | 原始剩余百分比（含 16.5% autocompact buffer） |
+| `used_pct` | number | **statusline 计算** | 实际使用率（扣除了 buffer） |
+| `timestamp` | number | statusline 写入 | 秒级 Unix 时间戳 |
+
+### used_pct 计算逻辑
+
+```javascript
+// Claude Code 保留 ~16.5% 作为 autocompact buffer
+const AUTO_COMPACT_BUFFER_PCT = 16.5;
+
+// 原始 remaining 包含 buffer，需要扣除才能得到"真正可用"的百分比
+// 例如: remaining = 46.5% 时，buffer 占 16.5%，实际可用只剩 30%
+const usableRemaining = ((remaining - AUTO_COMPACT_BUFFER_PCT) / (100 - AUTO_COMPACT_BUFFER_PCT)) * 100;
+const used = 100 - usableRemaining;
+```
+
+### 读写依赖关系（关键！）
+
+```
+┌─────────────────┐         ┌─────────────────┐
+│ gsd-statusline  │         │ gsd-context-    │
+│     .js         │         │   monitor.js    │
+│                 │         │                 │
+│   【生产者】     │         │   【消费者】     │
+│   【写入者】     │         │   【读取者】     │
+└────────┬────────┘         └────────┬────────┘
+         │                           │
+         │ 写入                       │ 读取
+         ▼                           ▼
+┌─────────────────────────────────────────────┐
+│   /tmp/claude-ctx-{session_id}.json         │
+└─────────────────────────────────────────────┘
+```
+
+**依赖关系**：
+
+| Hook | 角色 | 触发时机 | 依赖 |
+|------|------|----------|------|
+| `gsd-statusline.js` | **生产者** | 每 5 次 Tool | 无依赖 |
+| `gsd-context-monitor.js` | **消费者** | 每次 Tool 后 | **依赖 statusline 写入的数据** |
+
+### 如果 Statusline 不写入 Bridge File？
+
+```javascript
+// gsd-context-monitor.js 中的处理逻辑
+if (!fs.existsSync(metricsPath)) {
+  process.exit(0);  // 找不到文件 → 静默退出，不警告
+}
+```
+
+**结果**：
+- context-monitor 读不到文件
+- `fs.existsSync()` 返回 `false`
+- 静默退出，永远不会触发警告
+- Agent 对上下文耗尽一无所知
+
+### 常见问题：自定义 Statusline 未写入 Bridge File
+
+**症状**：
+```bash
+ls -la /tmp/claude-ctx-*.json
+# 输出: no matches found
+```
+
+**原因**：自定义 statusline（如 `@wangjs-jacky/glm-coding-plan-statusline`）没有写入 bridge file。
+
+**解决方案**：在自定义 statusline 中添加写入逻辑：
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+// 当 Claude Code 调用 statusline 时
+if (session && remaining != null) {
+  try {
+    const bridgePath = path.join(os.tmpdir(), `claude-ctx-${session}.json`);
+    fs.writeFileSync(bridgePath, JSON.stringify({
+      session_id: session,
+      remaining_percentage: remaining,
+      used_pct: used,  // 需要计算
+      timestamp: Math.floor(Date.now() / 1000)
+    }));
+  } catch (e) {
+    // 静默失败
+  }
+}
+```
+
 ---
 
 ## 场景 2：上下文不足时的警告流程
@@ -128,6 +231,43 @@ if (!firstWarn && warnData.callsSinceWarn < DEBOUNCE_CALLS && !severityEscalated
 
 ## 场景 3：中断保存流程（/gsd:pause-work）
 
+### 重要：pause-work 是手动触发的！
+
+```
+上下文警告流程                          pause-work 流程
+       │                                      │
+       ▼                                      ▼
+┌─────────────────┐                   ┌─────────────────┐
+│ context-monitor │                   │     用户        │
+│ 注入警告到 Agent │                   │  手动执行命令    │
+└────────┬────────┘                   └────────┬────────┘
+         │                                     │
+         ▼                                     │
+┌─────────────────┐                            │
+│ Agent 看到:     │                            │
+│ "CONTEXT 70%..."│                            │
+└────────┬────────┘                            │
+         │                                     │
+         ▼                                     │
+┌─────────────────┐                            │
+│ Agent 提醒用户: │                            │
+│ "建议运行        │                            │
+│  /gsd:pause-work"                            │
+└────────┬────────┘                            │
+         │                                     │
+         └──────────────► 用户决定 ◄───────────┘
+                          │
+                          ▼
+                   /gsd:pause-work
+```
+
+**关键点**：
+- context-monitor **只负责警告**，不会自动暂停
+- Agent **只负责提醒**，不会自动执行 pause-work
+- **用户必须手动执行** `/gsd:pause-work`
+
+### pause-work 执行步骤
+
 ```
 T1: 用户执行 /gsd:pause-work
     │
@@ -137,7 +277,7 @@ T2: 检测当前 Phase 目录
     └── ls -lt .planning/phases/*/PLAN.md | head -1
        → "02-authentication"
 
-T3: 收集状态信息
+T3: 收集状态信息（通过对话或自动收集）
     │
     ├── 当前位置: Phase 2, Plan 1, Task 3
     ├── 完成工作: Task 1-2
@@ -156,7 +296,19 @@ T5: Git Commit
 
 T6: 告诉用户如何恢复
     │
-    └── "恢复时运行: /gsd:resume-work"
+    └── "✓ 已保存进度。恢复时运行: /gsd:resume-work"
+```
+
+### pause-work 之后用户应该做什么？
+
+```
+T7: 用户执行后续操作
+    │
+    ├── ① /clear（清空上下文，释放 context window）
+    │
+    └── ② /gsd:resume-work（在新 session 中恢复）
+           │
+           └── 读取 .continue-here.md，继续工作
 ```
 
 ### .continue-here.md 结构
