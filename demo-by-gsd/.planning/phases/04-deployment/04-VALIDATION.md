@@ -1,8 +1,8 @@
 ---
 phase: 4
 slug: 04-deployment
-status: draft
-nyquist_compliant: false
+status: approved
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-03-16
 ---
@@ -97,6 +97,6 @@ created: 2026-03-16
 - [x] Wave 0 covers all MISSING references
 - [x] No watch-mode flags
 - [x] Feedback latency < 3 minutes
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved 2026-03-16
