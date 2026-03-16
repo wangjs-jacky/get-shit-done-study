@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PomodoroTimer from './PomodoroTimer';
+import CopyButton from './CopyButton';
 import type { Style } from '../types/style';
 
 interface GalleryProps {
@@ -20,16 +21,6 @@ export default function Gallery({ styles }: GalleryProps) {
       Object.entries(selected.cssVariables).forEach(([key, value]) => {
         root.style.setProperty(key, value);
       });
-    }
-  };
-
-  const handleCopyPrompt = async () => {
-    if (!currentStyle) return;
-    try {
-      await navigator.clipboard.writeText(currentStyle.promptText);
-      alert('Prompt copied!');
-    } catch {
-      console.error('Copy failed');
     }
   };
 
@@ -56,12 +47,7 @@ export default function Gallery({ styles }: GalleryProps) {
                   <h3 className="font-bold text-[var(--color-text)]">{currentStyle.name}</h3>
                   <p className="text-sm text-[var(--color-text-muted)]">{currentStyle.description}</p>
                 </div>
-                <button
-                  onClick={handleCopyPrompt}
-                  className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--color-bg-elevated)] text-[var(--color-text)] border border-[var(--color-border)] hover:border-[var(--color-primary)]"
-                >
-                  Copy Prompt
-                </button>
+                <CopyButton text={currentStyle.promptText} />
               </div>
             </div>
           )}
