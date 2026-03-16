@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { ToastProvider } from '../context/ToastContext';
 import Gallery from '../components/Gallery';
 import PreviewPane from '../components/PreviewPane';
 import PomodoroTimer from '../components/PomodoroTimer';
@@ -95,11 +96,13 @@ describe('performance', () => {
   // Test 3: No FOUC during style switching
   it('PERF-02: no FOUC during style switching - CSS variables have values', () => {
     const { rerender } = render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="terminal-noir"
-        onStyleSelect={() => {}}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={() => {}}
+        />
+      </ToastProvider>
     );
 
     // Verify initial CSS variables are set (not empty)
@@ -118,11 +121,13 @@ describe('performance', () => {
     vi.mocked(document.documentElement.style.setProperty).mockClear();
 
     rerender(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="ocean-breeze"
-        onStyleSelect={() => {}}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="ocean-breeze"
+          onStyleSelect={() => {}}
+        />
+      </ToastProvider>
     );
 
     // Verify new CSS variables are also defined

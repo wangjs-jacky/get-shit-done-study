@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { ToastProvider } from '../../context/ToastContext';
 import PreviewPane from '../PreviewPane';
 import type { Style } from '../../types/style';
 
@@ -45,11 +46,13 @@ describe('PreviewPane', () => {
   // Test 1: Renders PomodoroTimer component
   it('renders PomodoroTimer component', () => {
     render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="terminal-noir"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
     // PomodoroTimer displays 25:00 by default
@@ -59,11 +62,13 @@ describe('PreviewPane', () => {
   // Test 2: Displays current style name and description
   it('displays current style name and description', () => {
     render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="terminal-noir"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
     expect(screen.getByText('Terminal Noir')).toBeInTheDocument();
@@ -72,18 +77,17 @@ describe('PreviewPane', () => {
 
   // Test 3: Copy Prompt button triggers clipboard API
   it('copies prompt to clipboard when Copy Prompt button is clicked', async () => {
-    // Mock window.alert
-    vi.spyOn(window, 'alert').mockImplementation(() => {});
-
     render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="terminal-noir"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
-    const copyButton = screen.getByRole('button', { name: 'Copy Prompt' });
+    const copyButton = screen.getByRole('button', { name: /copy prompt to clipboard/i });
     fireEvent.click(copyButton);
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('Terminal Noir theme prompt');
@@ -92,11 +96,13 @@ describe('PreviewPane', () => {
   // Test 4: CSS variables injected when selectedStyleId changes
   it('injects CSS variables when selectedStyleId changes', () => {
     const { rerender } = render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="terminal-noir"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
     // Clear mock calls from initial render
@@ -104,11 +110,13 @@ describe('PreviewPane', () => {
 
     // Rerender with new style
     rerender(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="ocean-breeze"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="ocean-breeze"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
     // Verify new CSS variables were set
@@ -119,11 +127,13 @@ describe('PreviewPane', () => {
   // Test 5: Shows loading state when style not found
   it('shows loading state when style not found', () => {
     render(
-      <PreviewPane
-        styles={mockStyles}
-        selectedStyleId="non-existent"
-        onStyleSelect={mockOnStyleSelect}
-      />
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="non-existent"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
     );
 
     expect(screen.getByText('Loading style...')).toBeInTheDocument();
