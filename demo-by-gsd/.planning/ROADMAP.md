@@ -76,8 +76,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Configure Astro for GitHub Pages deployment
-- [ ] 04-02: Set up GitHub Actions workflow for CI/CD
+- [ ] 04-01-PLAN.md — Create GitHub Actions workflow for automatic deployment to GitHub Pages
+- [ ] 04-02-PLAN.md — Verify deployment and CI/CD pipeline with end-to-end testing
 
 ## Progress
 
