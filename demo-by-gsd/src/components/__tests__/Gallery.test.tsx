@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ToastProvider } from '../../context/ToastContext';
 import Gallery from '../Gallery';
 import type { Style } from '../../types/style';
 
@@ -36,11 +35,7 @@ describe('Gallery', () => {
 
   // Test 1: Renders header with title
   it('renders header with title', () => {
-    render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    render(<Gallery styles={mockStyles} />);
 
     expect(screen.getByText('Frontend Design Gallery')).toBeInTheDocument();
     expect(screen.getByText('快速预览和选择 UI 风格')).toBeInTheDocument();
@@ -48,11 +43,7 @@ describe('Gallery', () => {
 
   // Test 2: Renders 70/30 split layout
   it('renders 70/30 split layout with correct grid classes', () => {
-    const { container } = render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    const { container } = render(<Gallery styles={mockStyles} />);
 
     // Check for grid layout
     const mainGrid = container.querySelector('.grid-cols-1.lg\\:grid-cols-10');
@@ -69,11 +60,7 @@ describe('Gallery', () => {
 
   // Test 3: Renders PomodoroTimer in preview area
   it('renders PomodoroTimer in preview area', () => {
-    render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    render(<Gallery styles={mockStyles} />);
 
     // PomodoroTimer displays 25:00 by default
     expect(screen.getByText('25:00')).toBeInTheDocument();
@@ -81,11 +68,7 @@ describe('Gallery', () => {
 
   // Test 4: Renders style cards list
   it('renders style cards with names and descriptions', () => {
-    render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    render(<Gallery styles={mockStyles} />);
 
     // Terminal Noir appears twice (footer + style list), so use getAllByText
     expect(screen.getAllByText('Terminal Noir').length).toBeGreaterThan(0);
@@ -96,11 +79,7 @@ describe('Gallery', () => {
 
   // Test 5: Clicking style card updates selection and applies CSS variables
   it('applies CSS variables when style card is clicked', () => {
-    render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    render(<Gallery styles={mockStyles} />);
 
     // Click on Ocean Breeze style
     const oceanBreezeButton = screen.getByRole('button', { name: /Ocean Breeze/ });
@@ -113,11 +92,7 @@ describe('Gallery', () => {
 
   // Test 6: Copy Prompt button exists in footer
   it('renders Copy Prompt button in footer', () => {
-    render(
-      <ToastProvider>
-        <Gallery styles={mockStyles} />
-      </ToastProvider>
-    );
+    render(<Gallery styles={mockStyles} />);
 
     expect(screen.getByRole('button', { name: /copy prompt to clipboard/i })).toBeInTheDocument();
   });
