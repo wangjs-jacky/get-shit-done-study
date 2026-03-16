@@ -42,9 +42,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Performance
 
-- [ ] **PERF-01**: 风格切换时间 < 100ms
-- [ ] **PERF-02**: 初始页面加载 < 3s
-- [ ] **PERF-03**: 无 FOUC（Flash of Unstyled Content）
+- [x] **PERF-01**: 风格切换时间 < 100ms
+- [x] **PERF-02**: 初始页面加载 < 3s
+- [x] **PERF-03**: 无 FOUC（Flash of Unstyled Content）
 
 ### Deployment
 
@@ -111,9 +111,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 1 | Complete |
 | DATA-02 | Phase 1 | Complete |
 | DATA-03 | Phase 1 | Complete |
-| PERF-01 | Phase 2 | Pending |
-| PERF-02 | Phase 2 | Pending |
-| PERF-03 | Phase 2 | Pending |
+| PERF-01 | Phase 2 | Complete |
+| PERF-02 | Phase 2 | Complete |
+| PERF-03 | Phase 2 | Complete |
 | DEPL-01 | Phase 4 | Pending |
 | DEPL-02 | Phase 4 | Pending |
 | DEPL-03 | Phase 4 | Pending |
