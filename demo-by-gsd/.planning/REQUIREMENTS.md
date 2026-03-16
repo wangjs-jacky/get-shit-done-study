@@ -30,7 +30,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Copy Functionality
 
 - [ ] **COPY-01**: "Copy Prompt" 按钮 - 一键复制风格 prompt 到剪贴板
-- [ ] **COPY-02**: 复制成功提示（Toast 通知）
+- [x] **COPY-02**: 复制成功提示（Toast 通知）
 - [ ] **COPY-03**: 复制的 prompt 适合粘贴到 CLAUDE.md 文件
 - [ ] **COPY-04**: 复制按钮有清晰的视觉标识
 
@@ -105,7 +105,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STYL-03 | Phase 1 | Pending |
 | STYL-04 | Phase 1 | Pending |
 | COPY-01 | Phase 3 | Pending |
-| COPY-02 | Phase 3 | Pending |
+| COPY-02 | Phase 3 | Complete |
 | COPY-03 | Phase 3 | Pending |
 | COPY-04 | Phase 3 | Pending |
 | DATA-01 | Phase 1 | Complete |
