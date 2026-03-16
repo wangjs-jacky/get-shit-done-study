@@ -60,8 +60,9 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Implement CopyButton component with clipboard API
-- [ ] 03-02: Add Toast component for copy feedback
+- [ ] 03-01: Create Toast notification system (Context + Portal pattern)
+- [ ] 03-02: Create CopyButton component and integrate with Gallery/PreviewPane
+
 
 ### Phase 4: Deployment
 **Goal**: Deploy to GitHub Pages with automatic CI/CD
