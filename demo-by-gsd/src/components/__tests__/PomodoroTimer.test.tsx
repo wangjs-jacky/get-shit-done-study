@@ -50,14 +50,20 @@ describe('PomodoroTimer', () => {
 
     // Start the timer
     const startButton = screen.getByRole('button', { name: 'Start' });
-    fireEvent.click(startButton);
+    act(() => {
+      fireEvent.click(startButton);
+    });
 
     // Advance timer by 5 seconds
-    vi.advanceTimersByTime(5000);
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
 
     // Reset the timer
     const resetButton = screen.getByRole('button', { name: 'Reset' });
-    fireEvent.click(resetButton);
+    act(() => {
+      fireEvent.click(resetButton);
+    });
 
     expect(screen.getByText('25:00')).toBeInTheDocument();
   });
@@ -71,11 +77,13 @@ describe('PomodoroTimer', () => {
     fireEvent.click(breakButton);
 
     expect(screen.getByText('05:00')).toBeInTheDocument();
-    expect(screen.getByText('Break Time')).toBeInTheDocument();
+    // Check for Break mode indicator (appears in status span)
+    const breakIndicators = screen.getAllByText('Break');
+    expect(breakIndicators.length).toBeGreaterThanOrEqual(1);
   });
 
   // Test 6: Circular progress reflects remaining time
-  it('renders circular progress ring with correct strokeDashoffset', () => {
+  it('renders scalable circular progress ring with correct strokeDashoffset', () => {
     const { container } = render(<PomodoroTimer />);
 
     // Find the progress circle (second circle element)
@@ -83,8 +91,15 @@ describe('PomodoroTimer', () => {
     const progressCircle = circles[1];
 
     // At 100% progress (25:00 of 25:00), strokeDashoffset should be 0
-    // circumference = 2 * PI * 120 = ~754
+    // circumference = 2 * PI * 100 = ~628
     expect(progressCircle).toHaveStyle({ strokeDashoffset: '0' });
+  });
+
+  it('renders the timer within a responsive square wrapper', () => {
+    const { container } = render(<PomodoroTimer />);
+
+    const scalableWrapper = container.querySelector('.w-full.max-w-\\[22rem\\].flex-1.min-h-0.aspect-square');
+    expect(scalableWrapper).toBeInTheDocument();
   });
 
   // Test 7: Timer counts down when running

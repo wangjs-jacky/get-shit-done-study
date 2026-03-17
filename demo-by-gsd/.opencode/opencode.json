@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "/Users/jiashengwang/jacky-github/get-shit-done-study/.opencode/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/Users/jiashengwang/jacky-github/get-shit-done-study/.opencode/get-shit-done/*": "allow"
+    }
+  }
+}

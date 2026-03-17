@@ -28,25 +28,25 @@ export default function CopyButton({ text, className = '' }: CopyButtonProps) {
     try {
       // Check if clipboard API is available (requires HTTPS or localhost)
       if (!navigator.clipboard?.writeText) {
-        showToast('Copy failed', 'error');
+        showToast('复制失败', 'error');
         return;
       }
 
       await navigator.clipboard.writeText(text);
-      showToast('Prompt copied!', 'success');
+      showToast('设计提示词已复制', 'success');
     } catch (error) {
       console.error('Copy failed:', error);
-      showToast('Copy failed', 'error');
+      showToast('复制失败', 'error');
     }
   };
 
   return (
     <button
       onClick={handleCopy}
-      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-[var(--color-bg-elevated)] text-[var(--color-text)] border border-[var(--color-border)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] ${className}`}
-      aria-label="Copy prompt to clipboard"
+      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold text-[var(--color-bg)] bg-[var(--color-primary)] shadow-[0_12px_30px_-16px_var(--color-primary)] hover:brightness-105 hover:shadow-[0_18px_36px_-18px_var(--color-primary)] active:scale-[0.99] border border-transparent touch-manipulation transition-[background-color,color,box-shadow,transform,filter] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)] ${className}`}
+      aria-label="复制设计提示词"
     >
-      Copy Prompt
+      复制设计提示词
     </button>
   );
 }

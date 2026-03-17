@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command 与 Workflow 分离架构 | GSD Framework</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #090513;
+      --color-bg-elevated: #151127;
+      --color-text: #f3eaff;
+      --color-text-muted: #9a8fb8;
+      --color-border: rgba(0,255,255,0.2);
+      --color-primary: #ff4fd8;
+      --color-primary-dim: rgba(255,79,216,0.18);
+      --color-amber: #ffd400;
+      --color-red: #ff5a5f;
+      --color-blue: #00e5ff;
+      --glass-bg: rgba(21,17,39,0.76);
+      --glass-border: rgba(0,229,255,0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background effects */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow-1 {
+      top: -200px;
+      right: -100px;
+      background: var(--color-primary);
+    }
+
+    .bg-glow-2 {
+      bottom: -200px;
+      left: -100px;
+      background: var(--color-blue);
+    }
+
+    /* Scanline effect */
+    .scanline {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.1) 2px,
+        rgba(0,0,0,0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 80px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header-tag {
+      display: inline-block;
+      padding: 8px 20px;
+      background: var(--color-primary-dim);
+      border: 1px solid var(--color-primary);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 50%, var(--color-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 60px;
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.2s; }
+    .section:nth-child(4) { animation-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: '//';
+      color: var(--color-primary);
+    }
+
+    /* Card */
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 40px rgba(255,79,216,0.1);
+    }
+
+    /* Two columns */
+    .two-cols {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    /* Layer card */
+    .layer-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .layer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--color-primary);
+    }
+
+    .layer-card.workflow::before {
+      background: var(--color-blue);
+    }
+
+    .layer-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .layer-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .layer-card:first-child .layer-icon {
+      background: var(--color-primary-dim);
+      color: var(--color-primary);
+    }
+
+    .layer-card.workflow .layer-icon {
+      background: rgba(0,229,255,0.15);
+      color: var(--color-blue);
+    }
+
+    .layer-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .layer-desc {
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+
+    .layer-content {
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      text-align: left;
+      padding: 16px;
+      background: rgba(255,79,216,0.1);
+      border-bottom: 2px solid var(--color-primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    tr:hover td {
+      background: rgba(0,229,255,0.05);
+    }
+
+    /* Code block */
+    .code-block {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(0,229,255,0.1);
+      border-bottom: 1px solid var(--color-border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--color-blue);
+    }
+
+    .code-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .code-dot:nth-child(1) { background: var(--color-red); }
+    .code-dot:nth-child(2) { background: var(--color-amber); }
+    .code-dot:nth-child(3) { background: #00ff88; }
+
+    pre {
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    .code-key { color: var(--color-primary); }
+    .code-string { color: var(--color-amber); }
+    .code-comment { color: var(--color-text-muted); }
+    .code-tag { color: var(--color-blue); }
+
+    /* Flow diagram */
+    .flow-diagram {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .flow-diagram .highlight {
+      color: var(--color-primary);
+    }
+
+    .flow-diagram .highlight-blue {
+      color: var(--color-blue);
+    }
+
+    .flow-diagram .highlight-amber {
+      color: var(--color-amber);
+    }
+
+    /* Design highlights */
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .highlight-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .highlight-item:hover {
+      transform: translateY(-4px);
+      border-color: var(--color-primary);
+    }
+
+    .highlight-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    .highlight-text {
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+
+    /* Analogy section */
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .analogy-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .analogy-gsd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: var(--color-primary);
+    }
+
+    .analogy-arrow {
+      color: var(--color-text-muted);
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .analogy-web {
+      font-size: 14px;
+      color: var(--color-blue);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 40px 20px;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .flow-diagram {
+        font-size: 11px;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="scanline"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <span class="header-tag">GSD Framework Architecture</span>
+      <h1>Command 与 Workflow 分离架构</h1>
+      <p>GSD 框架采用两层架构：Command 负责声明，Workflow 负责实现。让命令既易于理解，又易于维护。</p>
+    </header>
+
+    <!-- Two Layers -->
+    <section class="section">
+      <h2 class="section-title">核心架构：两层职责</h2>
+      <div class="two-cols">
+        <div class="card layer-card">
+          <div class="layer-header">
+            <div class="layer-icon">C</div>
+            <div>
+              <div class="layer-name">Command Layer</div>
+              <div class="layer-desc">声明层 · "做什么"</div>
+            </div>
+          </div>
+          <div class="layer-content">
+            <p>薄薄的入口层，定义元数据和依赖。</p>
+            <ul style="margin-top: 12px; padding-left: 20px; color: var(--color-text-muted);">
+              <li>name, description</li>
+              <li>allowed-tools（最小权限原则）</li>
+              <li>execution_context（依赖引用）</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card layer-card workflow">
+          <div class="layer-header">
+            <div class="layer-icon">W</div>
+            <div>
+              <div class="layer-name">Workflow Layer</div>
+              <div class="layer-desc">实现层 · "怎么做"</div>
+            </div>
+          </div>
+          <div class="layer-content">
+            <p>厚厚的实现层，包含具体步骤和逻辑。</p>
+            <ul style="margin-top: 12px; padding-left: 20px; color: var(--color-text-muted);">
+              <li>step 定义</li>
+              <li>conditions 条件</li>
+              <li>bash 命令</li>
+              <li>交互逻辑</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Examples -->
+    <section class="section">
+      <h2 class="section-title">文件结构对比</h2>
+      <div class="two-cols">
+        <div class="card">
+          <h3 style="margin-bottom: 16px; color: var(--color-primary);">Command 文件结构</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span style="margin-left: 8px;">commands/gsd/update.md</span>
+            </div>
+            <pre><code><span class="code-key">---</span>
+<span class="code-tag">name:</span> <span class="code-string">gsd:update</span>
+<span class="code-tag">description:</span> <span class="code-string">Update GSD to latest version</span>
+<span class="code-tag">allowed-tools:</span>
+  - <span class="code-string">Bash</span>
+  - <span class="code-string">AskUserQuestion</span>
+<span class="code-key">---</span>
+
+<span class="code-tag">&lt;objective&gt;</span>
+  Check for updates, install if available...
+<span class="code-tag">&lt;/objective&gt;</span>
+
+<span class="code-tag">&lt;execution_context&gt;</span>
+  <span class="code-comment">@~/.claude/get-shit-done/workflows/update.md</span>
+<span class="code-tag">&lt;/execution_context&gt;</span></code></pre>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: 16px; color: var(--color-blue);">Workflow 文件结构</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span style="margin-left: 8px;">workflows/update.md</span>
+            </div>
+            <pre><code><span class="code-tag">&lt;purpose&gt;</span>Check for GSD updates...<span class="code-tag">&lt;/purpose&gt;</span>
+
+<span class="code-tag">&lt;step</span> <span class="code-key">name</span>=<span class="code-string">"get_installed_version"</span><span class="code-tag">&gt;</span>
+  检测本地/全局安装...
+  <span class="code-comment">```bash</span>
+  # 具体的 bash 命令
+  <span class="code-comment">```</span>
+<span class="code-tag">&lt;/step&gt;</span>
+
+<span class="code-tag">&lt;step</span> <span class="code-key">name</span>=<span class="code-string">"check_latest_version"</span><span class="code-tag">&gt;</span>
+  <span class="code-comment">```bash</span>
+  npm view get-shit-done-cc version
+  <span class="code-comment">```</span>
+<span class="code-tag">&lt;/step&gt;</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flow Diagram -->
+    <section class="section">
+      <h2 class="section-title">安装与执行流程</h2>
+      <div class="card">
+        <div class="flow-diagram"><span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-amber">npm 包</span> (get-shit-done-cc@latest)                           │
+│                                                              │
+│  ├── commands/gsd/        <span class="highlight-blue"># 命令入口文件</span>                      │
+│  ├── agents/              <span class="highlight-blue"># 子代理定义</span>                        │
+│  ├── get-shit-done/       <span class="highlight-blue"># 核心实现</span>                          │
+│  │   ├── workflows/       <span class="highlight-blue"># 工作流</span>                            │
+│  │   ├── templates/       <span class="highlight-blue"># 模板</span>                              │
+│  │   ├── references/      <span class="highlight-blue"># 参考文档</span>                          │
+│  │   └── bin/             <span class="highlight-blue"># 工具脚本</span>                          │
+│  ├── hooks/dist/          <span class="highlight-blue"># 钩子脚本</span>                          │
+│  └── bin/install.js       <span class="highlight-blue"># 安装程序</span>                          │
+└─────────────────────────────────────────────────────────────┘</span>
+                              │
+                              │ copyWithPathReplacement()
+                              ▼
+<span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-amber">目标目录</span> (~/.claude/ 或 ./.claude/)                         │
+│                                                              │
+│  ├── commands/gsd/        <span class="highlight-blue">✓ Installed commands/gsd</span>          │
+│  ├── get-shit-done/       <span class="highlight-blue">✓ Installed get-shit-done</span>         │
+│  │   ├── workflows/                                        │
+│  │   ├── templates/                                        │
+│  │   ├── references/                                       │
+│  │   └── VERSION         <span class="highlight-blue">✓ Wrote VERSION (1.22.4)</span>          │
+│  ├── agents/                                                │
+│  │   └── gsd-*.md        <span class="highlight-blue">✓ Installed agents</span>                 │
+│  ├── hooks/              <span class="highlight-blue">✓ Installed hooks</span>                   │
+│  ├── gsd-file-manifest.json  <span class="highlight-blue">✓ Wrote file manifest</span>          │
+│  └── package.json        <span class="highlight-blue">✓ Wrote package.json (CommonJS)</span>    │
+└─────────────────────────────────────────────────────────────┘</span></div>
+      </div>
+    </section>
+
+    <!-- Execution Flow -->
+    <section class="section">
+      <h2 class="section-title">命令执行流程</h2>
+      <div class="card">
+        <div class="flow-diagram"><span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-amber">用户输入</span>: /gsd:update                                       │
+└─────────────────────────────────────────────────────────────┘</span>
+                              │
+                              ▼
+<span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-blue">Step 1: 读取命令入口</span>                                        │
+│  ~/.claude/commands/gsd/update.md                           │
+│                                                              │
+│  内容:                                                       │
+│  - name: gsd:update                                          │
+│  - allowed-tools: [Bash, AskUserQuestion]                   │
+│  - execution_context: @~/.claude/.../workflows/update.md    │
+└─────────────────────────────────────────────────────────────┘</span>
+                              │
+                              │ @ 引用
+                              ▼
+<span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-blue">Step 2: 读取工作流实现</span>                                      │
+│  ~/.claude/get-shit-done/workflows/update.md                │
+│                                                              │
+│  内容:                                                       │
+│  - &lt;step name="get_installed_version"&gt;                      │
+│  - &lt;step name="check_latest_version"&gt;                       │
+│  - &lt;step name="run_update"&gt;                                 │
+└─────────────────────────────────────────────────────────────┘</span>
+                              │
+                              │ 执行步骤
+                              ▼
+<span class="highlight">┌─────────────────────────────────────────────────────────────┐
+│  <span class="highlight-blue">Step 3: 执行工作流</span>                                          │
+│                                                              │
+│  • 读取 VERSION 文件                                         │
+│  • 调用 npm view 检查最新版本                                 │
+│  • 比较版本 → 显示 changelog → 用户确认 → 执行更新             │
+└─────────────────────────────────────────────────────────────┘</span></div>
+      </div>
+    </section>
+
+    <!-- Design Highlights -->
+    <section class="section">
+      <h2 class="section-title">设计亮点</h2>
+      <div class="highlights">
+        <div class="highlight-item">
+          <div class="highlight-number">01</div>
+          <div class="highlight-text"><strong>关注点分离</strong><br>接口与实现解耦</div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">02</div>
+          <div class="highlight-text"><strong>工具权限控制</strong><br>每个命令明确声明需要的工具</div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">03</div>
+          <div class="highlight-text"><strong>可复用</strong><br>一个 workflow 可被多个 command 引用</div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-number">04</div>
+          <div class="highlight-text"><strong>可维护</strong><br>修改实现不影响命令接口</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analogy -->
+    <section class="section">
+      <h2 class="section-title">与 Web 开发类比</h2>
+      <div class="card">
+        <div class="analogy-grid">
+          <div class="analogy-item">
+            <div class="analogy-gsd">Command</div>
+            <div class="analogy-arrow">↕</div>
+            <div class="analogy-web">API Route（定义接口）</div>
+          </div>
+          <div class="analogy-item">
+            <div class="analogy-gsd">Workflow</div>
+            <div class="analogy-arrow">↕</div>
+            <div class="analogy-web">Service Layer（实现逻辑）</div>
+          </div>
+          <div class="analogy-item">
+            <div class="analogy-gsd">References</div>
+            <div class="analogy-arrow">↕</div>
+            <div class="analogy-web">Utils/Helpers</div>
+          </div>
+          <div class="analogy-item">
+            <div class="analogy-gsd">Templates</div>
+            <div class="analogy-arrow">↕</div>
+            <div class="analogy-web">View Templates</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>源码路径：<code style="background: rgba(255,79,216,0.1); padding: 2px 8px; border-radius: 4px;">notes/architecture/command-workflow-separation.md</code></p>
+      <p style="margin-top: 12px;">GSD Framework · Get Shit Done</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { ToastProvider } from '../../context/ToastContext';
 import PreviewPane from '../PreviewPane';
 import type { Style } from '../../types/style';
@@ -76,7 +76,7 @@ describe('PreviewPane', () => {
   });
 
   // Test 3: Copy Prompt button triggers clipboard API
-  it('copies prompt to clipboard when Copy Prompt button is clicked', async () => {
+  it('copies prompt to clipboard when localized copy button is clicked', async () => {
     render(
       <ToastProvider>
         <PreviewPane
@@ -87,8 +87,10 @@ describe('PreviewPane', () => {
       </ToastProvider>
     );
 
-    const copyButton = screen.getByRole('button', { name: /copy prompt to clipboard/i });
-    fireEvent.click(copyButton);
+    const copyButton = screen.getByRole('button', { name: /复制设计提示词/i });
+    await act(async () => {
+      fireEvent.click(copyButton);
+    });
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('Terminal Noir theme prompt');
   });
@@ -137,5 +139,20 @@ describe('PreviewPane', () => {
     );
 
     expect(screen.getByText('Loading style...')).toBeInTheDocument();
+  });
+
+  it('renders the mobile preview inside a phone frame shell', () => {
+    const { container } = render(
+      <ToastProvider>
+        <PreviewPane
+          styles={mockStyles}
+          selectedStyleId="terminal-noir"
+          onStyleSelect={mockOnStyleSelect}
+        />
+      </ToastProvider>
+    );
+
+    const screenContent = container.querySelector('.w-full.aspect-\\[14\\/25\\]');
+    expect(screenContent).toBeInTheDocument();
   });
 });

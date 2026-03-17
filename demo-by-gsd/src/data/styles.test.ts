@@ -21,10 +21,26 @@ describe('styles.json', () => {
     expect(() => JSON.parse(content)).not.toThrow();
   });
 
-  it('should have styles array with at least one entry', () => {
+  it('should have styles array with the full documented style catalog', () => {
     expect(stylesData).toHaveProperty('styles');
     expect(Array.isArray(stylesData.styles)).toBe(true);
-    expect(stylesData.styles.length).toBeGreaterThanOrEqual(1);
+    expect(stylesData.styles.length).toBeGreaterThanOrEqual(9);
+  });
+
+  it('should include all documented frontend-design variants', () => {
+    const ids = stylesData.styles.map((style) => style.id);
+
+    expect(ids).toEqual(expect.arrayContaining([
+      'terminal-noir',
+      'soft-pastel',
+      'brutalist-raw',
+      'ocean-deep',
+      'forest-moss',
+      'sunset-warm',
+      'glassmorphism-frost',
+      'cyberpunk-pulse',
+      'minimal-light',
+    ]));
   });
 
   describe('Terminal Noir style', () => {

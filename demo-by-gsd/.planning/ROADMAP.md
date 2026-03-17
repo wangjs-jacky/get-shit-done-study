@@ -64,9 +64,19 @@ Plans:
 - [x] 03-02: Create CopyButton component and integrate with Gallery/PreviewPane - completed 2026-03-16
 
 
+### Phase 03.1: Expand style catalog to include all frontend-design skill themes (INSERTED)
+
+**Goal:** Expand the shipped style catalog so the gallery includes every frontend-design variant documented in project artifacts
+**Requirements**: STYL-01, DATA-01, DATA-02, DATA-03
+**Depends on:** Phase 3
+**Plans:** 1 plan
+
+Plans:
+- [x] 03.1-01-PLAN.md — Expand style dataset to include all documented frontend-design variants
+
 ### Phase 4: Deployment
 **Goal**: Deploy to GitHub Pages with automatic CI/CD
-**Depends on**: Phase 3
+**Depends on**: Phase 03.1
 **Requirements**: DEPL-01, DEPL-02, DEPL-03
 **Success Criteria** (what must be TRUE):
   1. Site is accessible at https://wangjs-jacky.github.io/frontend-design-gallery
@@ -82,13 +92,14 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 3 → 3.1 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data | 3/3 | Complete | 01-01, 01-02, 01-03 |
 | 2. Demo App & Preview | 3/3 | Complete | 2026-03-16 |
 | 3. Copy Functionality | 2/2 | Complete | 2026-03-16 |
+| 3.1 Expand Style Catalog | 1/1 | Complete | 2026-03-16 |
 | 4. Deployment | 0/2 | Not started | - |
 
 ---

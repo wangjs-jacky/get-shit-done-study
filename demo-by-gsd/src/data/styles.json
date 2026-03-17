@@ -18,7 +18,167 @@
         "--glass-bg": "rgba(255, 255, 255, 0.02)",
         "--glass-border": "rgba(255, 255, 255, 0.05)"
       },
-      "promptText": "## 前端设计偏好\n\n> **核心理念**：创建独特、有辨识度的界面，避免千篇一律的\"AI 风格\"。每次设计都应有明确的视觉主张。\n\n### 设计思维框架\n\n开始设计前，明确以下要素：\n\n| 维度 | 问题 |\n|------|------|\n| **目的** | 这个界面解决什么问题？谁在使用它？ |\n| **风格** | 选择一个明确的风格方向（极简主义、复古未来、赛博朋克、有机自然等） |\n| **约束** | 技术要求（框架、性能、无障碍） |\n| **差异化** | 什么让这个界面令人难忘？用户会记住哪一个设计元素？ |\n\n> **关键原则**：大胆的极繁主义和精致的极简主义都可行——重要的是意图性和一致性，而非强度。\n\n### Terminal Noir 配色方案\n\n```css\n/* 核心颜色 */\n--color-bg: #0a0a0b;           /* 深黑背景 */\n--color-bg-elevated: #131316;  /* 抬升背景 */\n--color-text: #e5e5e7;         /* 主文字 */\n--color-text-muted: #6b6b76;   /* 次要文字 */\n--color-border: rgba(255, 255, 255, 0.06);\n\n/* 强调色 - 霓虹风格 */\n--color-primary: #00ff88;      /* 霓虹绿 */\n--color-primary-dim: rgba(0, 255, 136, 0.15);\n--color-amber: #ffb800;        /* 琥珀色 */\n--color-red: #ff4757;          /* 警告红 */\n--color-blue: #00d4ff;         /* 天蓝 */\n\n/* 玻璃效果 */\n--glass-bg: rgba(255, 255, 255, 0.02);\n--glass-border: rgba(255, 255, 255, 0.05);\n```\n\n### 喜欢的设计风格\n\n- **深色主题优先**：深邃的背景色，营造沉浸感\n- **霓虹色彩点缀**：终端/赛博朋克风格的强调色\n- **玻璃态效果**：毛玻璃、半透明层次感\n- **微妙动效**：流畅的过渡和有意义的动画\n- **技术感字体**：等宽字体用于代码/技术元素\n\n### 避免的\"AI 风格\"\n\n**绝对不要使用这些平庸的选择**：\n\n| 类别 | 避免 | 原因 |\n|------|------|------|\n| **字体** | Inter, Roboto, Arial, 系统字体, Space Grotesk | 过于通用，缺乏个性 |\n| **配色** | 白底紫色渐变 | AI 生成界面的典型标志 |\n| **布局** | 千篇一律的卡片网格 | 缺乏创意和上下文关联 |\n| **组件** | 套用模板的设计系统 | 没有针对场景定制 |\n\n### 字体选择指南\n\n**推荐字体**（具有独特个性）：\n\n| 类型 | 推荐字体 | 特点 |\n|------|----------|------|\n| **等宽** | JetBrains Mono, Fira Code, IBM Plex Mono | 技术感、可读性好 |\n| **展示** | Clash Display, Satoshi, Cabinet Grotesk | 现代感、有辨识度 |\n| **正文** | DM Sans, Plus Jakarta Sans, Outfit | 清晰、不张扬 |\n\n> **字体搭配原则**：选择一个有个性的展示字体 + 一个精致的正文字体。避免两个都平淡或都抢眼。\n\n### 动效设计原则\n\n**优先级**：一次精心编排的页面加载动画 > 分散的微交互\n\n| 技术 | 场景 |\n|------|------|\n| **CSS 动画** | 优先使用，适用于大多数效果 |\n| **Motion (React)** | 复杂动画场景 |\n| **animation-delay** | 错落有致的入场效果 |\n| **滚动触发** | 惊喜感的交互时刻 |\n| **Hover 状态** | 有意义的反馈 |\n\n### 空间布局策略\n\n**打破常规，创造记忆点**：\n\n- 意想不到的布局\n- 非对称设计\n- 元素重叠\n- 对角线流动\n- 突破网格\n- 要么大量留白，要么控制密度\n\n### 背景与视觉细节\n\n**营造氛围，而非使用纯色**：\n\n| 效果 | 实现方式 |\n|------|----------|\n| 网格背景纹理 | CSS grid pattern / SVG |\n| 扫描线效果 | 伪元素 + linear-gradient |\n| 霓虹发光 | box-shadow / text-shadow |\n| 卡片边框高光 | border + gradient |\n| 渐变网格 | mesh-gradient |\n| 噪点纹理 | noise overlay |\n| 几何图案 | SVG / CSS pattern |\n| 分层透明 | layered transparencies |\n| 戏剧性阴影 | box-shadow |\n| 装饰边框 | decorative borders |\n| 自定义光标 | cursor: url() |\n| 颗粒覆盖 | grain overlay |\n\n### 设计复杂度匹配\n\n> **重要**：实现复杂度应与美学愿景匹配\n\n- **极繁主义设计** → 需要精细的代码、大量动画和效果\n- **极简主义设计** → 需要克制、精确，关注间距、字体和微妙细节\n\n**优雅来自于对愿景的精准执行，而非风格的妥协。**"
+      "promptText": "## 前端设计偏好 - Terminal Noir\n\n> **核心理念**：深色终端风格，霓虹绿强调色，营造技术感和沉浸感。\n\n### 配色方案\n\n```css\n--color-bg: #0a0a0b;           /* 深黑背景 */\n--color-bg-elevated: #131316;  /* 抬升背景 */\n--color-text: #e5e5e7;         /* 主文字 */\n--color-text-muted: #6b6b76;   /* 次要文字 */\n--color-border: rgba(255, 255, 255, 0.06);\n--color-primary: #00ff88;      /* 霓虹绿 */\n--color-primary-dim: rgba(0, 255, 136, 0.15);\n--color-amber: #ffb800;        /* 琥珀色 */\n--color-red: #ff4757;          /* 警告红 */\n--color-blue: #00d4ff;         /* 天蓝 */\n--glass-bg: rgba(255, 255, 255, 0.02);\n--glass-border: rgba(255, 255, 255, 0.05);\n```\n\n### 设计要点\n\n- **深色主题优先**：深邃的背景色，营造沉浸感\n- **霓虹色彩点缀**：终端/赛博朋克风格的强调色\n- **玻璃态效果**：毛玻璃、半透明层次感\n- **技术感字体**：等宽字体用于代码/技术元素"
+    },
+    {
+      "id": "soft-pastel",
+      "name": "Soft Pastel",
+      "description": "柔和粉彩色系，温馨舒适的视觉体验。适合生活类、健康类应用。",
+      "cssVariables": {
+        "--color-bg": "#fef7f0",
+        "--color-bg-elevated": "#ffffff",
+        "--color-text": "#5d4e4e",
+        "--color-text-muted": "#9a8a8a",
+        "--color-border": "rgba(93, 78, 78, 0.1)",
+        "--color-primary": "#e8a4b8",
+        "--color-primary-dim": "rgba(232, 164, 184, 0.2)",
+        "--color-amber": "#f5c86e",
+        "--color-red": "#e88b8b",
+        "--color-blue": "#a8d4e6",
+        "--glass-bg": "rgba(255, 255, 255, 0.7)",
+        "--glass-border": "rgba(232, 164, 184, 0.3)"
+      },
+      "promptText": "## 前端设计偏好 - Soft Pastel\n\n> **核心理念**：柔和粉彩色系，营造温馨、舒适、治愈的视觉体验。\n\n### 配色方案\n\n```css\n--color-bg: #fef7f0;           /* 暖白背景 */\n--color-bg-elevated: #ffffff;  /* 纯白 */\n--color-text: #5d4e4e;         /* 暖灰文字 */\n--color-text-muted: #9a8a8a;   /* 次要文字 */\n--color-border: rgba(93, 78, 78, 0.1);\n--color-primary: #e8a4b8;      /* 樱花粉 */\n--color-primary-dim: rgba(232, 164, 184, 0.2);\n--color-amber: #f5c86e;        /* 奶油黄 */\n--color-red: #e88b8b;          /* 珊瑚红 */\n--color-blue: #a8d4e6;         /* 天空蓝 */\n--glass-bg: rgba(255, 255, 255, 0.7);\n--glass-border: rgba(232, 164, 184, 0.3);\n```\n\n### 设计要点\n\n- **柔和色调**：粉彩为主，避免高饱和度\n- **圆润元素**：大圆角，柔和阴影\n- **温馨氛围**：暖色调背景，舒适的对比度\n- **治愈感**：轻盈、透气、不压抑"
+    },
+    {
+      "id": "brutalist-raw",
+      "name": "Brutalist Raw",
+      "description": "粗野主义风格，原始、粗犷、不加修饰。适合艺术类、实验性项目。",
+      "cssVariables": {
+        "--color-bg": "#ffffff",
+        "--color-bg-elevated": "#f0f0f0",
+        "--color-text": "#000000",
+        "--color-text-muted": "#666666",
+        "--color-border": "#000000",
+        "--color-primary": "#ff0000",
+        "--color-primary-dim": "rgba(255, 0, 0, 0.1)",
+        "--color-amber": "#ffcc00",
+        "--color-red": "#ff0000",
+        "--color-blue": "#0000ff",
+        "--glass-bg": "rgba(255, 255, 255, 0.9)",
+        "--glass-border": "#000000"
+      },
+      "promptText": "## 前端设计偏好 - Brutalist Raw\n\n> **核心理念**：粗野主义，原始、直白、不加修饰，用极端的简约表达力量。\n\n### 配色方案\n\n```css\n--color-bg: #ffffff;           /* 纯白背景 */\n--color-bg-elevated: #f0f0f0;  /* 浅灰 */\n--color-text: #000000;         /* 纯黑文字 */\n--color-text-muted: #666666;   /* 灰色 */\n--color-border: #000000;       /* 黑色边框 */\n--color-primary: #ff0000;      /* 纯红强调 */\n--color-primary-dim: rgba(255, 0, 0, 0.1);\n--color-amber: #ffcc00;        /* 黄色 */\n--color-red: #ff0000;          /* 红色 */\n--color-blue: #0000ff;         /* 蓝色 */\n--glass-bg: rgba(255, 255, 255, 0.9);\n--glass-border: #000000;\n```\n\n### 设计要点\n\n- **极端对比**：黑白为主，少量纯色点缀\n- **粗犷边框**：2-4px 实线边框\n- **系统字体**：Courier、monospace\n- **无装饰**：没有渐变、阴影、圆角\n- **网格布局**：严格的模块化结构"
+    },
+    {
+      "id": "ocean-deep",
+      "name": "Ocean Deep",
+      "description": "深海蓝色系，宁静专注的氛围。适合效率工具、阅读类应用。",
+      "cssVariables": {
+        "--color-bg": "#0d1b2a",
+        "--color-bg-elevated": "#1b263b",
+        "--color-text": "#e0e1dd",
+        "--color-text-muted": "#778da9",
+        "--color-border": "rgba(119, 141, 169, 0.3)",
+        "--color-primary": "#48cae4",
+        "--color-primary-dim": "rgba(72, 202, 228, 0.15)",
+        "--color-amber": "#f4a261",
+        "--color-red": "#e63946",
+        "--color-blue": "#48cae4",
+        "--glass-bg": "rgba(27, 38, 59, 0.8)",
+        "--glass-border": "rgba(72, 202, 228, 0.2)"
+      },
+      "promptText": "## 前端设计偏好 - Ocean Deep\n\n> **核心理念**：深海蓝色系，营造宁静、专注、深邃的氛围。\n\n### 配色方案\n\n```css\n--color-bg: #0d1b2a;           /* 深海蓝背景 */\n--color-bg-elevated: #1b263b;  /* 浅一层 */\n--color-text: #e0e1dd;         /* 浅色文字 */\n--color-text-muted: #778da9;   /* 灰蓝 */\n--color-border: rgba(119, 141, 169, 0.3);\n--color-primary: #48cae4;      /* 海洋亮蓝 */\n--color-primary-dim: rgba(72, 202, 228, 0.15);\n--color-amber: #f4a261;        /* 暖橙 */\n--color-red: #e63946;          /* 珊瑚红 */\n--color-blue: #48cae4;         /* 海洋蓝 */\n--glass-bg: rgba(27, 38, 59, 0.8);\n--glass-border: rgba(72, 202, 228, 0.2);\n```\n\n### 设计要点\n\n- **深蓝主调**：宁静、专注、不刺眼\n- **柔和对比**：文字清晰但不突兀\n- **波浪元素**：可用波浪线、渐变表达海洋感\n- **呼吸感**：适当留白，不拥挤"
+    },
+    {
+      "id": "forest-moss",
+      "name": "Forest Moss",
+      "description": "森林苔藓色系，自然有机的感觉。适合环保、户外、健康类应用。",
+      "cssVariables": {
+        "--color-bg": "#1a1f16",
+        "--color-bg-elevated": "#252b1e",
+        "--color-text": "#d4e0c7",
+        "--color-text-muted": "#8a9a7c",
+        "--color-border": "rgba(138, 154, 124, 0.3)",
+        "--color-primary": "#a3b18a",
+        "--color-primary-dim": "rgba(163, 177, 138, 0.2)",
+        "--color-amber": "#dda15e",
+        "--color-red": "#bc6c25",
+        "--color-blue": "#606c38",
+        "--glass-bg": "rgba(37, 43, 30, 0.8)",
+        "--glass-border": "rgba(163, 177, 138, 0.2)"
+      },
+      "promptText": "## 前端设计偏好 - Forest Moss\n\n> **核心理念**：森林苔藓色系，自然、有机、平静的视觉体验。\n\n### 配色方案\n\n```css\n--color-bg: #1a1f16;           /* 深森林背景 */\n--color-bg-elevated: #252b1e;  /* 苔藓绿 */\n--color-text: #d4e0c7;         /* 浅绿文字 */\n--color-text-muted: #8a9a7c;   /* 橄榄绿 */\n--color-border: rgba(138, 154, 124, 0.3);\n--color-primary: #a3b18a;      /* 浅苔藓 */\n--color-primary-dim: rgba(163, 177, 138, 0.2);\n--color-amber: #dda15e;        /* 秋叶黄 */\n--color-red: #bc6c25;          /* 树皮棕 */\n--color-blue: #606c38;         /* 深橄榄 */\n--glass-bg: rgba(37, 43, 30, 0.8);\n--glass-border: rgba(163, 177, 138, 0.2);\n```\n\n### 设计要点\n\n- **自然色调**：绿色系为主，棕色点缀\n- **有机形状**：柔和曲线，避免尖角\n- **质感纹理**：木纹、叶脉等自然元素\n- **平静氛围**：低饱和度，不刺激"
+    },
+    {
+      "id": "sunset-warm",
+      "name": "Sunset Warm",
+      "description": "日落暖色系，温暖热情的视觉体验。适合社交、娱乐、创意类应用。",
+      "cssVariables": {
+        "--color-bg": "#1f1410",
+        "--color-bg-elevated": "#2d1f18",
+        "--color-text": "#f5e6d3",
+        "--color-text-muted": "#c4a882",
+        "--color-border": "rgba(196, 168, 130, 0.2)",
+        "--color-primary": "#ff6b35",
+        "--color-primary-dim": "rgba(255, 107, 53, 0.2)",
+        "--color-amber": "#ffa62b",
+        "--color-red": "#ff4444",
+        "--color-blue": "#6b5b95",
+        "--glass-bg": "rgba(45, 31, 24, 0.8)",
+        "--glass-border": "rgba(255, 107, 53, 0.2)"
+      },
+      "promptText": "## 前端设计偏好 - Sunset Warm\n\n> **核心理念**：日落暖色系，温暖、热情、充满活力的视觉体验。\n\n### 配色方案\n\n```css\n--color-bg: #1f1410;           /* 深棕背景 */\n--color-bg-elevated: #2d1f18;  /* 浅棕 */\n--color-text: #f5e6d3;         /* 米白文字 */\n--color-text-muted: #c4a882;   /* 金棕 */\n--color-border: rgba(196, 168, 130, 0.2);\n--color-primary: #ff6b35;      /* 日落橙 */\n--color-primary-dim: rgba(255, 107, 53, 0.2);\n--color-amber: #ffa62b;        /* 金黄 */\n--color-red: #ff4444;          /* 暖红 */\n--color-blue: #6b5b95;         /* 暮光紫 */\n--glass-bg: rgba(45, 31, 24, 0.8);\n--glass-border: rgba(255, 107, 53, 0.2);\n```\n\n### 设计要点\n\n- **暖色主调**：橙、黄、红为主\n- **热情氛围**：高能量、积极向上\n- **渐变效果**：模拟日落天空的渐变\n- **动感设计**：动效活泼、有节奏"
+    },
+    {
+      "id": "glassmorphism-frost",
+      "name": "Glassmorphism Frost",
+      "description": "半透明磨砂玻璃风格，轻盈现代。适合效率工具、仪表盘、AI 产品。",
+      "cssVariables": {
+        "--color-bg": "#eaf4ff",
+        "--color-bg-elevated": "rgba(255, 255, 255, 0.58)",
+        "--color-text": "#13324b",
+        "--color-text-muted": "#6f8aa1",
+        "--color-border": "rgba(255, 255, 255, 0.65)",
+        "--color-primary": "#5bc0ff",
+        "--color-primary-dim": "rgba(91, 192, 255, 0.18)",
+        "--color-amber": "#ffd166",
+        "--color-red": "#ff6b6b",
+        "--color-blue": "#5bc0ff",
+        "--glass-bg": "rgba(255, 255, 255, 0.42)",
+        "--glass-border": "rgba(255, 255, 255, 0.7)"
+      },
+      "promptText": "## 前端设计偏好 - Glassmorphism Frost\n\n> **核心理念**：使用半透明卡片、柔和高光和冰蓝色调，营造轻盈现代的玻璃拟态体验。\n\n### 配色方案\n\n```css\n--color-bg: #eaf4ff;                         /* 冰蓝背景 */\n--color-bg-elevated: rgba(255,255,255,0.58); /* 抬升卡片 */\n--color-text: #13324b;                      /* 深海军蓝文字 */\n--color-text-muted: #6f8aa1;                /* 次要说明 */\n--color-border: rgba(255,255,255,0.65);     /* 玻璃边界 */\n--color-primary: #5bc0ff;                   /* 冰蓝强调 */\n--color-primary-dim: rgba(91,192,255,0.18);\n--color-amber: #ffd166;                     /* 柔和点缀黄 */\n--color-red: #ff6b6b;                       /* 警示红 */\n--color-blue: #5bc0ff;                      /* 辅助蓝 */\n--glass-bg: rgba(255,255,255,0.42);         /* 玻璃底色 */\n--glass-border: rgba(255,255,255,0.7);      /* 高光边框 */\n```\n\n### 设计要点\n\n- **毛玻璃层次**：使用 backdrop blur、透明叠层和微弱高光\n- **轻盈卡片**：边框比阴影更重要，避免厚重块面\n- **冷色氛围**：蓝白为主，少量暖色负责状态提醒\n- **现代质感**：圆角较大，动效柔和克制"
+    },
+    {
+      "id": "cyberpunk-pulse",
+      "name": "Cyberpunk Pulse",
+      "description": "高对比赛博朋克风格，电光蓝与霓虹粉碰撞。适合未来感、游戏感、实验性产品。",
+      "cssVariables": {
+        "--color-bg": "#090513",
+        "--color-bg-elevated": "#151127",
+        "--color-text": "#f3eaff",
+        "--color-text-muted": "#9a8fb8",
+        "--color-border": "rgba(0, 255, 255, 0.2)",
+        "--color-primary": "#ff4fd8",
+        "--color-primary-dim": "rgba(255, 79, 216, 0.18)",
+        "--color-amber": "#ffd400",
+        "--color-red": "#ff5a5f",
+        "--color-blue": "#00e5ff",
+        "--glass-bg": "rgba(21, 17, 39, 0.76)",
+        "--glass-border": "rgba(0, 229, 255, 0.25)"
+      },
+      "promptText": "## 前端设计偏好 - Cyberpunk Pulse\n\n> **核心理念**：深夜城市霓虹感，用高对比暗底、荧光粉和电光蓝营造强烈未来气质。\n\n### 配色方案\n\n```css\n--color-bg: #090513;                 /* 深紫黑背景 */\n--color-bg-elevated: #151127;        /* 面板背景 */\n--color-text: #f3eaff;               /* 冷白文字 */\n--color-text-muted: #9a8fb8;         /* 灰紫说明 */\n--color-border: rgba(0,255,255,0.2); /* 电光蓝边框 */\n--color-primary: #ff4fd8;            /* 霓虹粉 */\n--color-primary-dim: rgba(255,79,216,0.18);\n--color-amber: #ffd400;              /* 信号黄 */\n--color-red: #ff5a5f;                /* 警示红 */\n--color-blue: #00e5ff;               /* 电光蓝 */\n--glass-bg: rgba(21,17,39,0.76);     /* 暗色玻璃 */\n--glass-border: rgba(0,229,255,0.25);\n```\n\n### 设计要点\n\n- **高反差暗底**：背景深、强调色亮，视觉冲击明确\n- **霓虹双主色**：粉色负责主 CTA，蓝色负责辅助信息\n- **科技噪点**：可用网格线、扫描线、发光描边增强氛围\n- **未来感排版**：数字和状态信息适合更强的节奏感"
+    },
+    {
+      "id": "minimal-light",
+      "name": "Minimal Light",
+      "description": "极简明亮风格，留白充足、信息克制。适合 SaaS、文档、生产力工具。",
+      "cssVariables": {
+        "--color-bg": "#f7f7f5",
+        "--color-bg-elevated": "#ffffff",
+        "--color-text": "#171717",
+        "--color-text-muted": "#6f6f6a",
+        "--color-border": "rgba(23, 23, 23, 0.08)",
+        "--color-primary": "#2563eb",
+        "--color-primary-dim": "rgba(37, 99, 235, 0.12)",
+        "--color-amber": "#d97706",
+        "--color-red": "#dc2626",
+        "--color-blue": "#2563eb",
+        "--glass-bg": "rgba(255, 255, 255, 0.9)",
+        "--glass-border": "rgba(23, 23, 23, 0.06)"
+      },
+      "promptText": "## 前端设计偏好 - Minimal Light\n\n> **核心理念**：极简明亮、信息优先，通过留白、节制的色彩和稳定的排版建立专业感。\n\n### 配色方案\n\n```css\n--color-bg: #f7f7f5;                   /* 温和浅灰背景 */\n--color-bg-elevated: #ffffff;          /* 纯白卡片 */\n--color-text: #171717;                 /* 主文字 */\n--color-text-muted: #6f6f6a;           /* 次要说明 */\n--color-border: rgba(23,23,23,0.08);   /* 细边框 */\n--color-primary: #2563eb;              /* 专业蓝 */\n--color-primary-dim: rgba(37,99,235,0.12);\n--color-amber: #d97706;                /* 警示橙 */\n--color-red: #dc2626;                  /* 错误红 */\n--color-blue: #2563eb;                 /* 链接蓝 */\n--glass-bg: rgba(255,255,255,0.9);     /* 明亮面板 */\n--glass-border: rgba(23,23,23,0.06);   /* 柔和边界 */\n```\n\n### 设计要点\n\n- **留白优先**：通过间距而不是装饰建立层级\n- **克制强调**：只让关键操作使用品牌蓝\n- **文档感结构**：标题、说明、数据模块排列稳定清晰\n- **长时间阅读友好**：对比清楚但不刺眼，适合效率类产品"
     }
   ]
 }

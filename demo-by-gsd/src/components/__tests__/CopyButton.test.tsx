@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { ToastProvider } from '../../context/ToastContext';
 import CopyButton from '../CopyButton';
 
@@ -44,9 +44,9 @@ describe('CopyButton', () => {
       </ToastProvider>
     );
 
-    const button = screen.getByRole('button', { name: /copy prompt to clipboard/i });
+    const button = screen.getByRole('button', { name: /复制设计提示词/i });
     expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent('Copy Prompt');
+    expect(button).toHaveTextContent('复制设计提示词');
   });
 
   it('should call navigator.clipboard.writeText with provided text on click', async () => {
@@ -59,7 +59,9 @@ describe('CopyButton', () => {
     );
 
     const button = screen.getByRole('button');
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     expect(mockClipboardWriteText).toHaveBeenCalledWith('Test prompt text');
     expect(mockClipboardWriteText).toHaveBeenCalledTimes(1);
@@ -75,10 +77,12 @@ describe('CopyButton', () => {
     );
 
     const button = screen.getByRole('button');
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     await waitFor(() => {
-      expect(screen.getByText('Prompt copied!')).toBeInTheDocument();
+      expect(screen.getByText('设计提示词已复制')).toBeInTheDocument();
     });
   });
 
@@ -92,10 +96,12 @@ describe('CopyButton', () => {
     );
 
     const button = screen.getByRole('button');
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     await waitFor(() => {
-      expect(screen.getByText('Copy failed')).toBeInTheDocument();
+      expect(screen.getByText('复制失败')).toBeInTheDocument();
     });
   });
 
@@ -113,10 +119,12 @@ describe('CopyButton', () => {
     );
 
     const button = screen.getByRole('button');
-    fireEvent.click(button);
+    await act(async () => {
+      fireEvent.click(button);
+    });
 
     await waitFor(() => {
-      expect(screen.getByText('Copy failed')).toBeInTheDocument();
+      expect(screen.getByText('复制失败')).toBeInTheDocument();
     });
 
     // Restore clipboard
@@ -133,5 +141,16 @@ describe('CopyButton', () => {
 
     const button = screen.getByRole('button');
     expect(button).toHaveClass('custom-class');
+  });
+
+  it('uses targeted transition utilities instead of transition-all', () => {
+    render(
+      <ToastProvider>
+        <CopyButton text="Test prompt" />
+      </ToastProvider>
+    );
+
+    const button = screen.getByRole('button');
+    expect(button.className).not.toContain('transition-all');
   });
 });
