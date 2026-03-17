@@ -5,52 +5,80 @@ on:
     branches: [main]
     paths:
       - 'demo-by-gsd/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./demo-by-gsd
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
           cache-dependency-path: './demo-by-gsd/pnpm-lock.yaml'
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build site
-        run: pnpm build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./demo-by-gsd/dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Install dependencies
+        working-directory: ./demo-by-gsd
+        run: pnpm install
+
+      - name: Build site
+        working-directory: ./demo-by-gsd
+        run: pnpm build
+
+      - name: Deploy to gh-pages branch
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # 保存当前分支名
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+          # 创建临时目录保存构建产物
+          TEMP_DIR=$(mktemp -d)
+          cp -r demo-by-gsd/dist/* "$TEMP_DIR/"
+          touch "$TEMP_DIR/.nojekyll"
+
+          # 检查 gh-pages 分支是否存在
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . 2>/dev/null || true
+          fi
+
+          # 清空当前目录（保留 .git）
+          find . -maxdepth 1 -not -path "./.git" -not -path "." -exec rm -rf {} \; 2>/dev/null || true
+
+          # 复制新文件
+          cp -r "$TEMP_DIR"/* .
+
+          # 提交并推送
+          git add -A
+          git commit -m "Deploy to GitHub Pages: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
+          git push origin gh-pages --force
+
+          # 切回原分支
+          git checkout "$CURRENT_BRANCH"
+
+      - name: Output deployment info
+        run: |
+          echo "✅ Deployed to https://wangjs-jacky.github.io/get-shit-done-study/"

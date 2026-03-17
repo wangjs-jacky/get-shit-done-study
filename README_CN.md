@@ -52,6 +52,12 @@ get-shit-done/
 - 用户交互流程
 - 可复用技巧
 
+## 在线演示
+
+🔗 **demo-by-gsd**: https://wangjs-jacky.github.io/get-shit-done-study/
+
+> 基于 GSD 框架开发的前端设计技能展示应用
+
 ## 参考资源
 
 - [GitHub 仓库](https://github.com/discreteprojects/get-shit-done)

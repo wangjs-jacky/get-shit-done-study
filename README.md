@@ -39,6 +39,8 @@ GSD 框架的源码目录，包含完整的中文翻译：
 
 基于 GSD 框架实际开发的演示项目（前端设计技能展示应用）：
 
+🔗 **在线演示**: https://wangjs-jacky.github.io/get-shit-done-study/
+
 技术栈：
 - **Astro** - 静态站点生成器
 - **React 19** - UI 框架
