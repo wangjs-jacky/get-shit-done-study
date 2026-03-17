@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://wangjs-jacky.github.io',
-  base: '/frontend-design-gallery',
+  base: '/get-shit-done-study',
   output: 'static',
   integrations: [react()],
   vite: {
