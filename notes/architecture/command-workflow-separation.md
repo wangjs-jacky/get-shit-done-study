@@ -1,3 +1,10 @@
+---
+article_id: OBA-t22f5vdw
+tags: [open-source, get-shit-done, architecture, ai-agent, ai, git]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Command 与 Workflow 分离架构
 
 > GSD 框架采用两层架构：Command 负责声明，Workflow 负责实现。

@@ -1,3 +1,10 @@
+---
+article_id: OBA-ssa15u2o
+tags: [open-source, get-shit-done, gsd-analysis, ai-agent, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD 上下文生命周期管理 - 时间线分析
 
 **分析时间**：2026-03-15

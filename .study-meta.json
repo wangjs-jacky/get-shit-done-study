@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "managedBy": "repo-study",
+  "sourceRepo": "discreteprojects/get-shit-done",
+  "sourceUrl": "https://github.com/discreteprojects/get-shit-done",
+  "cloneDepth": 1,
+  "commitSha": "unknown",
+  "createdAt": "2026-03-20",
+  "lastUpdated": "2026-04-20",
+  "topics": [
+    {
+      "name": "GSD 核心架构",
+      "progress": "completed",
+      "notes": ["notes/architecture/", "notes/gsd/", "notes/gsd-analysis/"]
+    },
+    {
+      "name": "GSD 执行模型",
+      "progress": "completed",
+      "notes": ["notes/gsd-execution-model.md", "notes/gsd-init-execute-phase.md"]
+    },
+    {
+      "name": "GSD 设计模式",
+      "progress": "completed",
+      "notes": ["notes/gsd-patterns/", "notes/design/"]
+    },
+    {
+      "name": "GSD 实操指南",
+      "progress": "completed",
+      "notes": ["notes/gsd-guide.md", "notes/gsd-interruption-guide.md"]
+    },
+    {
+      "name": "可复用设计提取",
+      "progress": "completed",
+      "notes": ["notes/reusable-designs/"]
+    }
+  ]
+}

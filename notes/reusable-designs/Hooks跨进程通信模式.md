@@ -1,3 +1,10 @@
+---
+article_id: OBA-5335umik
+tags: [open-source, get-shit-done, reusable-designs, ai, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Hooks 跨进程通信模式
 
 **来源**：get-shit-done-study / Claude Code 官方

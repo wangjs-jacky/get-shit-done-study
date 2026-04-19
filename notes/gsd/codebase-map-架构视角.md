@@ -1,3 +1,10 @@
+---
+article_id: OBA-ntgni2sm
+tags: [open-source, get-shit-done, gsd, ai-agent, ai]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Codebase Map 完整流程（从架构视角）
 
 > 从三个核心问题理解 GSD 的 Command/Workflow/Agent/Task 关系

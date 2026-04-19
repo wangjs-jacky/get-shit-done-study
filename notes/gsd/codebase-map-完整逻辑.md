@@ -1,3 +1,10 @@
+---
+article_id: OBA-m6oo56oq
+tags: [open-source, get-shit-done, gsd, ai-agent, git]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Codebase Map 完整逻辑
 
 > GSD 如何通过一次映射，为后续规划和执行提供代码上下文。

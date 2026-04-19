@@ -1,3 +1,10 @@
+---
+article_id: OBA-ur117gbl
+tags: [open-source, get-shit-done, design, ai-agent, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD Install 阶段设计
 
 > 一套优雅的"可安装 + 可更新 + 可卸载"的包管理方案

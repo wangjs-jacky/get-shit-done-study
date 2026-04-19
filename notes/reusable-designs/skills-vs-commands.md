@@ -1,3 +1,10 @@
+---
+article_id: OBA-jfykpx5x
+tags: [open-source, get-shit-done, reusable-designs, ai-agent, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Skills vs Commands 选择分析
 
 **来源**：get-shit-done-study / 学习分析

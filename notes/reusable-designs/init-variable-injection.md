@@ -1,3 +1,10 @@
+---
+article_id: OBA-df1gwp2m
+tags: [open-source, get-shit-done, reusable-designs, cli, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # INIT 变量注入模式
 
 **来源**：get-shit-done / workflows/*.md

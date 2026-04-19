@@ -1,3 +1,10 @@
+---
+article_id: OBA-z46ff1zy
+tags: [open-source, get-shit-done, commands, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD Update 命令流程分析
 
 > 梳理 `/gsd:update` 命令的完整执行流程和涉及的文件

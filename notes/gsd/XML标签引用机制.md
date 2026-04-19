@@ -1,3 +1,10 @@
+---
+article_id: OBA-0gfyohsq
+tags: [open-source, get-shit-done, gsd, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # XML 标签引用机制
 
 > GSD 使用 `@` 符号和层次化标签实现文件引用，这是其 prompt 工程的核心技巧之一。

@@ -1,3 +1,10 @@
+---
+article_id: OBA-m04azuu0
+tags: [open-source, get-shit-done, design, ai-agent, ai]
+type: tutorial
+updated_at: 2026-03-17
+---
+
 # Workflow 设计指南
 
 > 基于 GSD 框架学习，总结如何设计一个新的 Workflow

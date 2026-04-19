@@ -1,3 +1,10 @@
+---
+article_id: OBA-8rlg4ans
+tags: [open-source, get-shit-done, claude-config, git, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Claude Code Settings 层级与合并行为
 
 > 理解配置文件的优先级和合并逻辑，避免配置丢失

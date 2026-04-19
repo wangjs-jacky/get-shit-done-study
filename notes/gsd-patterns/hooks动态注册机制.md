@@ -1,3 +1,10 @@
+---
+article_id: OBA-m0y3vvh1
+tags: [open-source, get-shit-done, gsd-patterns, ai-agent, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # 命名前缀标识法 - 实现配置的快速添加与卸载
 
 > 通过统一的命名前缀标识框架添加的内容，实现"遍历过滤"式的精准卸载

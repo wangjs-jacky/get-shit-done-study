@@ -1,3 +1,10 @@
+---
+article_id: OBA-14xidhtb
+tags: [open-source, get-shit-done, gsd, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # 为什么 GSD 使用 XML 标签语法
 
 > 分析 GSD 框架中大量使用 XML 标签的设计考量

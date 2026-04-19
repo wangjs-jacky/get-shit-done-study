@@ -1,3 +1,10 @@
+---
+article_id: OBA-uqupqd4i
+tags: [open-source, get-shit-done, gsd, ai-agent]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD XML 标签体系
 
 > GSD 使用 XML 标签结构化 prompt，让大模型按步骤执行，而不是自由发挥。

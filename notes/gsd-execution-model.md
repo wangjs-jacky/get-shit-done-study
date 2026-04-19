@@ -1,3 +1,10 @@
+---
+article_id: OBA-snaisd5a
+tags: [open-source, get-shit-done, gsd-execution-model.md]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD 执行模型分析
 
 > 深入理解 GSD 的 Phase/Plan 执行机制与批量操作限制

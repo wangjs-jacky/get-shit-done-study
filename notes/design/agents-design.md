@@ -1,3 +1,10 @@
+---
+article_id: OBA-caf2xg0v
+tags: [open-source, get-shit-done, design, ai-agent]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD Agents 设计分析
 
 > 12 个专业化子代理，通过编排器协调工作

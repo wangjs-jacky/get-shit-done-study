@@ -1,3 +1,10 @@
+---
+article_id: OBA-pbvmlt4a
+tags: [open-source, get-shit-done, gsd-interruption-guide.md, ai, git]
+type: tutorial
+updated_at: 2026-03-17
+---
+
 # GSD 工作流中断与恢复指南
 
 > 当 context 溢出或临时需要中断 GSD 工作流时，如何正确保存状态并恢复

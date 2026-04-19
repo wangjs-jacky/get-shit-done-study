@@ -1,3 +1,10 @@
+---
+article_id: OBA-s9xd95nc
+tags: [open-source, get-shit-done, gsd-analysis, react, ai-agent, ai]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD YOLO 模式设计分析
 
 > YOLO 模式是一个"减少确认点，让 agents 自主决策推进"的设计，但也带来了用户参与感的问题。

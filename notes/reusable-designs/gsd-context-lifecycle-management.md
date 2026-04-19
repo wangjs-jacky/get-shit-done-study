@@ -1,3 +1,10 @@
+---
+article_id: OBA-2rxlpnc7
+tags: [open-source, get-shit-done, reusable-designs, ai-agent, ai, hooks]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD Context Lifecycle Management（上下文生命周期管理）
 
 **来源**：get-shit-done 框架 / hooks + workflows

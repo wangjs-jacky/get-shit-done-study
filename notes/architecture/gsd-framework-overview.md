@@ -1,3 +1,10 @@
+---
+article_id: OBA-8wj33bjj
+tags: [open-source, get-shit-done, architecture, ai-agent, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD 框架完整架构梳理
 
 > Get Shit Done 是一个为 Claude Code 设计的 AI 辅助开发框架，通过编排多个专业化 Agent 实现目标驱动的开发流程。

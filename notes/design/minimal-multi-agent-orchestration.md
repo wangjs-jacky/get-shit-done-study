@@ -1,3 +1,10 @@
+---
+article_id: OBA-lsengw2n
+tags: [open-source, get-shit-done, design, ai-agent]
+type: learning
+updated_at: 2026-03-17
+---
+
 # 最简多 Agent 编排设计
 
 > 参考 GSD 框架，提炼出最核心的多 Agent 编排机制

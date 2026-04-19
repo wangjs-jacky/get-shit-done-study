@@ -1,3 +1,10 @@
+---
+article_id: OBA-hn7nu3jo
+tags: [open-source, get-shit-done, design, ai-agent, git, skill]
+type: learning
+updated_at: 2026-03-17
+---
+
 # File Manifest 设计
 
 > 通过哈希清单实现"可更新 + 可定制"的包管理

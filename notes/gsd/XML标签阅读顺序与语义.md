@@ -1,3 +1,10 @@
+---
+article_id: OBA-1w0sh48t
+tags: [open-source, get-shit-done, gsd, ai]
+type: learning
+updated_at: 2026-03-17
+---
+
 # GSD XML 标签阅读顺序与语义
 
 > GSD 框架使用层次化的 XML 标签管理文件引用，不同标签有不同的读取时机和强制程度。

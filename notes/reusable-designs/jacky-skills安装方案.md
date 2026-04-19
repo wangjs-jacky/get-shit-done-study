@@ -1,3 +1,10 @@
+---
+article_id: OBA-s4s79dtm
+tags: [open-source, get-shit-done, reusable-designs, ai-agent, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # jacky-skills 安装方案设计
 
 **来源**：get-shit-done / bin/install.js

@@ -1,3 +1,10 @@
+---
+article_id: OBA-5u6nkclb
+tags: [open-source, get-shit-done, reusable-designs, ai-agent, ai, skill]
+type: learning
+updated_at: 2026-03-17
+---
+
 # XML 标签结构化 Prompt 设计
 
 **来源**：get-shit-done / agents & workflows

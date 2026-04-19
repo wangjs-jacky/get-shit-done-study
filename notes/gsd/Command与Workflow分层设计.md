@@ -1,3 +1,10 @@
+---
+article_id: OBA-r0j5wjsl
+tags: [open-source, get-shit-done, gsd, ai-agent, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Command 与 Workflow 分层设计深度分析
 
 > 为什么 Command 有 `<process>` 还要单独抽 Workflow？

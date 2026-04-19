@@ -1,3 +1,10 @@
+---
+article_id: OBA-3kr8guii
+tags: [open-source, get-shit-done, gsd, ai-agent, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Get Shit Done (GSD) 使用指南
 
 > 一份面向实践的 GSD 框架完整使用指南

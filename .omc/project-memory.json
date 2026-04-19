@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775233844672,
+  "projectRoot": "/Users/jiashengwang/jacky-github/get-shit-done-study",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "demo-by-gsd": {
+      "path": "demo-by-gsd",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1775233844546,
+      "keyFiles": [
+        "README.md",
+        "astro.config.mjs",
+        "package.json",
+        "pnpm-lock.yaml",
+        "tsconfig.json"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1775233844547,
+      "keyFiles": []
+    },
+    "get-shit-done": {
+      "path": "get-shit-done",
+      "purpose": null,
+      "fileCount": 11,
+      "lastAccessed": 1775233844549,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "CHANGELOG.zh-CN.md",
+        "LICENSE",
+        "LICENSE.zh-CN.md",
+        "README.md"
+      ]
+    },
+    "notes": {
+      "path": "notes",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1775233844558,
+      "keyFiles": [
+        "gsd-execution-model.md",
+        "gsd-init-execute-phase.md",
+        "gsd-interruption-guide.md",
+        "jq-demo.sh"
+      ]
+    },
+    "demo-by-gsd/public": {
+      "path": "demo-by-gsd/public",
+      "purpose": "Public files",
+      "fileCount": 2,
+      "lastAccessed": 1775233844563,
+      "keyFiles": [
+        "favicon.ico",
+        "favicon.svg"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "get-shit-done/README.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234254803,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234254818,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775234254932,
+      "type": "file"
+    },
+    {
+      "path": "demo-by-gsd/package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775234255003,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/hooks/gsd-context-monitor.js",
+      "accessCount": 1,
+      "lastAccessed": 1775234272183,
+      "type": "file"
+    },
+    {
+      "path": "demo-by-gsd/.planning/ROADMAP.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234272255,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/commands/gsd/new-project.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234272420,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/agents/gsd-planner.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234272476,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/agents/gsd-executor.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234272529,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/get-shit-done/workflows/new-project.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234288573,
+      "type": "file"
+    },
+    {
+      "path": "get-shit-done/agents/gsd-roadmapper.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234288643,
+      "type": "file"
+    },
+    {
+      "path": "docs/ONBOARDING.md",
+      "accessCount": 1,
+      "lastAccessed": 1775234425216,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

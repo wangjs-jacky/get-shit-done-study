@@ -1,3 +1,10 @@
+---
+article_id: OBA-kfx1u7h0
+tags: [open-source, get-shit-done, gsd, ai-agent, ai, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Codebase Map 完整流程详解
 
 > 从用户输入 `/gsd:map-codebase` 到生成 7 个文档的完整流程

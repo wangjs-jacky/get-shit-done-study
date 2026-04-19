@@ -1,3 +1,10 @@
+---
+article_id: OBA-wp8zrskd
+tags: [open-source, get-shit-done, claude-code, ai, hooks, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # Claude Code Hooks 使用指南
 
 > Hooks 是 Claude Code 的事件钩子机制，允许在特定时机执行自定义脚本，实现上下文监控、状态同步等功能。

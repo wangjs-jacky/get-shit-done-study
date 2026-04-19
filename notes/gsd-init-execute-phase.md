@@ -1,3 +1,10 @@
+---
+article_id: OBA-2tzvy7yp
+tags: [open-source, get-shit-done, gsd-init-execute-phase.md, claude]
+type: learning
+updated_at: 2026-03-17
+---
+
 # gsd-tools init execute-phase 数据读取分析
 
 > 深入分析 `init execute-phase` 命令的 JSON 输出字段来源与读取逻辑
